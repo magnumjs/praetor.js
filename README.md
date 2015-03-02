@@ -9,27 +9,37 @@
 Simple Example
 
 JSON:
-  `{"movies":[{"title":"American Sniper"},{"title":"Terminator"}]}`
+```javascript
+{"movies":[{"title":"American Sniper"},{"title":"Terminator"}]}
+```
 
-`p.proc (
+```javascript
+p.proc (
   getMovies (),
   ['$..title'],
   'this.results[0].reverse()'
-)`
+)
+```
 
 Results:
-
-  `["Terminator","American Sniper"]`
-
+```javascript
+  ["Terminator","American Sniper"]
+```
 Quick Setup
 1. Add a data store.
-`p.setDataStore( name, data )`
+```javascript
+p.setDataStore( name, data )
+```
 
 2. Create a named Query on a given dataStore
-`p.setJsonQuery ( name, JSONPathQuery, storeName )`
+```javascript
+p.setJsonQuery ( name, JSONPathQuery, storeName )
+```
 
 3. execute JSONPath Query by name and get result
-`getJsonQueryResult ( name, options )`
+```javascript
+getJsonQueryResult ( name, options )
+```
 
 ## Stored Procedure
 
@@ -37,25 +47,30 @@ Quick Setup
 #### Is given its own context of the named query results and optional params to override defaults
 
 1. Create a stored proc with a given name, named existing queries, the code to be executed and its default properties (added to the executing context)
-`p.setStoredProc ( name,  namedQueries , codeBody , parms )` 
+```javascript
+p.setStoredProc ( name,  namedQueries , codeBody , parms )
+```
 
 2. Execute a given named stored procedure and pass in overriding default properties and it will return the results.
-`getStoredProcResult ( name, params )`
+```javascript
+getStoredProcResult ( name, params )
+```
 
 
 ## Full Example
 
-`p.setDataStore('books',{books:[{title:'kids', author:'adams'},{title:'action', author:'johns'}]});
+```javascript
+p.setDataStore('books',{books:[{title:'kids', author:'adams'},{title:'action', author:'johns'}]});
 p.setJsonQuery('getBookTitles','$..title', 'books');
 console.log(p.getJsonQueryResult('getBookTitles'))
-console.log(p.getState())`
+console.log(p.getState())
 
-`var code='console.log(this.params, this.results[0]["getBookTitles"]);'
+var code='console.log(this.params, this.results[0]["getBookTitles"]);'
 +' if(this.params.upperCase){ '
 +' this.results[0]["getBookTitles"] =this.results[0]["getBookTitles"].map(function(x) { return x.toUpperCase(); }); '
-+'  }return this.results';`
++'  }return this.results';
 
-`p.setStoredProc('convertBookTitles',['getBookTitles'],code,{upperCase : false})
-console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['getBookTitles'])`
-
+p.setStoredProc('convertBookTitles',['getBookTitles'],code,{upperCase : false})
+console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['getBookTitles'])
+```
 > Created by Michael Glazer 3/1/2015
