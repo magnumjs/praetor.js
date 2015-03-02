@@ -1,7 +1,7 @@
 <img align="right" src="https://cloud.githubusercontent.com/assets/6472507/6443569/c255e31a-c0c5-11e4-9818-6423d7db04bb.png" style=" background:no-repeat;background-position: right top;display:block;position:absolute;top:0;left:0;width: 00%;height:100%;opacity: 0.2;z-index: -1;" />
 #Praetor.js 
 ##JSON Path Stored Procedures
-#### A JSON tunnel tier library, to query and filter results with stored procedures
+#### A tiny JSON processing tunnel tier library, to query and filter results with stored JS procedures
 
 ## Getting started
 
