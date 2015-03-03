@@ -1,4 +1,4 @@
-// Praeter.js JSONPathStoredProc (JPSP)
+// JSONPathStoredProc (JPSP)
 
 // using JSONpath query syntax 
 // query a data store JSON object
@@ -10,7 +10,7 @@
  * Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)
  * Licensed under the MIT (MIT-LICENSE.txt) licence.
  */
-
+ 
 var p = (function(window, undefined) {
   'use strict';
   // data contruct
@@ -19,21 +19,53 @@ var p = (function(window, undefined) {
   map.queries={}
   map.procs={}
   
+  // copy - don't modify!
+  var model = function() {
+      return JSON.parse(JSON.stringify(map))
+  }()
+  
+  var defaults={}
+  var settings={}
+  
+  
+  var OBJECT = "[object Object]"
+  var type = {}.toString;
   // initializer , necessary ?
-	function p(defaults, options) {	}
-
-	p.setDataStore = function ( name, data ) {
-	  map.stores[name] = data
+	function p(state, id, options) {	
+	  // add options with defaults to get settings
+	  //  p.settings = options + defaults
+	  // attach to id
+    p.map(id, state)
 	}
-  p.getDataStore = function ( name ) { 
-    return map.stores[name]
+  
+  var getMap=function(){
+    return p.map(map)
+  }
+  
+  p.map=function(id, state){
+    this.state = this.state || {}
+    if(id && type.call(id) !== OBJECT){
+      if(!this.state[id])
+        this.state[id] = state || JSON.parse(JSON.stringify(model))
+      return this.state[id]
+    }
+    this.state[p.id]  = id || this.state[p.id] || map
+    return this.state[p.id] 
+  }
+
+	p.setDataStore = function (name, data, id) {
+	  p.map(id).stores[name] = data
+	}
+	
+  p.getDataStore = function (name, id) { 
+    return p.map(id).stores[name]
   }
   
   p.setJsonQuery= function (name, JsonPathQuery, storeName) {
-    map.queries[name] = {query : JsonPathQuery, store : storeName}
+    getMap().queries[name] = {query : JsonPathQuery, store : storeName}
   }
   p.getJsonQuery= function ( name ) {
-    return map.queries[name]
+    return getMap().queries[name]
   }
   p.getJsonQueryResult = function ( name , options) { 
     var jsonQuery = p.getJsonQuery(name)
@@ -43,10 +75,10 @@ var p = (function(window, undefined) {
   }
   
   p.setStoredProc = function ( name,  namedQueries , codeBody , parms ) {
-    map.procs[name] = {namedQueries: namedQueries, codeBody : codeBody, parms : parms}
+    getMap().procs[name] = {namedQueries: namedQueries, codeBody : codeBody, parms : parms}
   }
   p.getStoredProc = function ( name ){
-   return map.procs[name]
+   return getMap().procs[name]
   }
   p.getStoredProcResult = function ( name , parms ) { 
     var storedProc = p.getStoredProc(name)
@@ -72,11 +104,11 @@ var p = (function(window, undefined) {
   }
 	
 	// api methods
-	p.setState = function ( state ) {
-	  map=state
+	p.setState = function ( id, state ) {
+	  p.map(id, state)
 	}
-	p.getState=function(){
-	  return JSON.parse(JSON.stringify(map));
+	p.getState=function(id){
+	  return JSON.parse(JSON.stringify(p.map(id)));
 	}
 	
 	return p
