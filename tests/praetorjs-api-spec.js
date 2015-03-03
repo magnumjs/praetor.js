@@ -1,8 +1,19 @@
 // specs code
-describe("PraetorJS", function() {
+describe("Praetor", function() {
   var booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';
   var books = JSON.parse(booksString);
   p.setDataStore('books', books);
+
+  describe('p() unique id instances', function() {
+    it("can set & get a unique instance of datastore", function() {
+      p.setDataStore('test', {}, 'id')
+      expect(p.getDataStore('test', 'id')).toEqual({});
+      expect(p.getDataStore('test', 'id2')).toEqual(undefined);
+      p.setDataStore('test2', {}, 'id2')
+      expect(p.getDataStore('test2', 'id2')).toEqual({});
+      expect(p.getDataStore('test2', 'id')).toEqual(undefined);
+    });
+  });
 
   it("can set & get a data store", function() {
     expect(p.getDataStore('books')).toEqual(books);
@@ -28,7 +39,6 @@ describe("PraetorJS", function() {
     });
   });
 
-
   it("can set & get a stored procedure with return", function() {
 
     var code = '\
@@ -51,7 +61,6 @@ describe("PraetorJS", function() {
     expect(results[0]['getBookTitles']).toEqual(["KIDS", "ACTION"]);
   });
 
-
   it("can set & get a stored procedure with NO return", function() {
 
     var code = '\
@@ -69,8 +78,6 @@ describe("PraetorJS", function() {
     var results = p.getStoredProcResult('convertBookTitles', {
       upperCase: true
     });
-
     expect(results[0]['getBookTitles']).toEqual(["KIDS", "ACTION"]);
   });
-
 });
