@@ -7,7 +7,7 @@ A tiny JSON processing tunnel tier library, to query and filter results with sto
 
 Download Praetor.JS
 ```html
-<script src="http://cdn.rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
+<script src="//cdn.rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
 ```
 
 Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
