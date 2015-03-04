@@ -1,7 +1,7 @@
 <img align="right" src="https://cloud.githubusercontent.com/assets/6472507/6443569/c255e31a-c0c5-11e4-9818-6423d7db04bb.png" style=" background:no-repeat;background-position: right top;display:block;position:absolute;top:0;left:0;width: 00%;height:100%;opacity: 0.2;z-index: -1;" />
 #Praetor.js 
-##JSON Path Stored Procedures
-#### A tiny JSON processing tunnel tier library, to query and filter results with stored JS procedures
+####JSON Path Stored Procedures
+A tiny JSON processing tunnel tier library, to query and filter results with stored JS procedures
 
 ## Getting started
 
@@ -10,9 +10,9 @@ Download Praetor.JS
 <script src="http://cdn.rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
 ```
 
-#### One internal (bundled) Dependency is on [JSONPath](https://github.com/s3u/JSONPath)
+Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
 
-Simple Example
+####Simple Example
 
 JSON:
 ```javascript
