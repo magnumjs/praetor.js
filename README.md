@@ -5,7 +5,12 @@
 
 ## Getting started
 
-#### One internal (bundled) Dependency is on [JSONPath](https://code.google.com/p/json-path/)
+Download Praetor.JS
+```html
+<script src="http://cdn.rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
+```
+
+#### One internal (bundled) Dependency is on [JSONPath](https://github.com/s3u/JSONPath)
 
 Simple Example
 
