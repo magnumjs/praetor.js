@@ -16,7 +16,7 @@ app.view=function (){
  return m('.container','hello world!')
 }
 
-m.module(document.getElementById('praetor-ui'), app)
+m.module(document.body, app)
 
 
 }( window, undefined ));
