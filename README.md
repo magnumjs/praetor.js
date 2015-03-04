@@ -12,6 +12,8 @@ Download Praetor.JS
 
 Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
 
+[DEMO site (using Mithril.js!)](https://magnumjs.github.io/praetor.js)
+
 ####Simple Example
 
 JSON:
