@@ -33,7 +33,7 @@ var p = (function(window, undefined) {
     //merge parms with defaults 
     //TODO: parms will override if attr don't exist
     for (var attr in storedProc.parms) {
-      parms[attr] = parms[attr] === "undefined" ? storedProc.parms[attr] : parms[attr]
+      parms[attr] = parms[attr] === undefined ? storedProc.parms[attr] : parms[attr]
     }
     //TODO: optional context via defaults override options
     var context = {
