@@ -31,18 +31,18 @@ Results:
 ```javascript
   ["Terminator","American Sniper"]
 ```
-Quick Setup
-1. Add a data store.
+####API methods
+Add a data store.
 ```javascript
 p.setDataStore( name, data )
 ```
 
-2. Create a named Query on a given dataStore
+Create a named Query on a given dataStore
 ```javascript
 p.setJsonQuery ( name, JSONPathQuery, storeName )
 ```
 
-3. execute JSONPath Query by name and get result
+Execute JSONPath Query by name and get result
 ```javascript
 getJsonQueryResult ( name, options )
 ```
@@ -52,12 +52,12 @@ getJsonQueryResult ( name, options )
 ### Pure JavaScript code block with query results
 #### Is given its own context of the named query results and optional params to override defaults
 
-1. Create a stored proc with a given name, named existing queries, the code to be executed and its default properties (added to the executing context)
+Create a stored proc with a given name, named existing queries, the code to be executed and its default properties (added to the executing context)
 ```javascript
 p.setStoredProc ( name,  namedQueries , codeBody , parms )
 ```
 
-2. Execute a given named stored procedure and pass in overriding default properties and it will return the results.
+Execute a given named stored procedure and pass in overriding default properties and it will return the results.
 ```javascript
 getStoredProcResult ( name, params )
 ```
