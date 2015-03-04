@@ -4,7 +4,7 @@
  *  @author Michael Glazer
  */
 
- (function( window, undefinef ) {
+ (function( window, undefined ) {
     "use strict";
 
    var app ={}
