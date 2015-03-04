@@ -74,4 +74,8 @@ var code='console.log(this.params, this.results[0]["getBookTitles"]); \
 p.setStoredProc('convertBookTitles',['getBookTitles'],code,{upperCase : false})
 console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['getBookTitles'])
 ```
+
+##Jasmine Specs
+http://cdn.rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
+
 > Created by Michael Glazer 3/1/2015
