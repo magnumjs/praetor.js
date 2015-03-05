@@ -13,10 +13,10 @@ app.controller=function (){
 
 }
 app.view=function (){
- return m('.content-area','hello world!')
+ return m('.content','hello world!')
 }
 
-m.module(document.getElementById('container'), app)
+m.module(document.getElementById('content-area'), app)
 
 
 }( window, undefined ));
