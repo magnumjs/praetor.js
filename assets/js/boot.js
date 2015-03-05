@@ -16,7 +16,7 @@ app.view=function (){
  return m('.content','hello world!')
 }
 
-m.module(document.getElementsByClassName('content-area'), app)
+m.module(document.getElementsByClassName('content-area')[0], app)
 
 
 }( window, undefined ));
