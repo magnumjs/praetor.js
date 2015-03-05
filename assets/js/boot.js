@@ -13,7 +13,7 @@ app.controller=function (){
 
 }
 app.view=function (){
- return m('.container','hello world!')
+ return m('.content-area','hello world!')
 }
 
 m.module(document.body, app)
