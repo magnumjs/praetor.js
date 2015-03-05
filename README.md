@@ -7,7 +7,7 @@ A tiny JSON processing tunnel tier library, to query and filter results with sto
 
 Download Praetor.JS
 ```html
-<script src="//cdn.rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
+<script src="//rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
 ```
 
 Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
@@ -83,6 +83,6 @@ console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['
 ```
 
 ##Jasmine Specs
-http://cdn.rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
+http://rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
 
 > Created by Michael Glazer 3/1/2015
