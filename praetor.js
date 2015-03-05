@@ -25,7 +25,13 @@ var p = (function(window, undefined) {
     }
     return to;
   };
-  
+  // TODO: why two mege functions, diff, nested issues?
+  function copy(to, from){
+    for (var attr in from) {
+      to[attr] = to[attr] === undefined ? from[attr] : to[attr]
+    }
+    return to
+  }
   function createFunctionExec(queryResults, storedProc, parms) {
     // create temp function
     var fun = Function(storedProc.codeBody)
@@ -71,7 +77,9 @@ var p = (function(window, undefined) {
     //  p.settings = options + defaults
     // attach to id
     p.setOptions(options, id)
-    p.map(id, state)
+    //merge incoming state with copy of model
+    var nstate= copy(state, JSON.parse(JSON.stringify(model)))
+    p.map(id, nstate)
   }
   p.setOptions=function(noptions, id){
     // states options / id
@@ -96,7 +104,7 @@ var p = (function(window, undefined) {
         this.state[id] = state || JSON.parse(JSON.stringify(model))
       return this.state[id]
     }
-    this.state[p.id] = id || this.state[p.id] || map
+    this.state[p.id] = state || this.state[p.id] || map
     return this.state[p.id]
   }
 
