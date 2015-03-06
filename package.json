@@ -8,6 +8,9 @@
 	"scripts": {
 	},
 	"main": "praetor.js",
+	"dependencies" : {
+	    "jsonpath" : "git://github.com/s3u/JSONPath"
+	},
 	"devDependencies": {
 	}
 }
