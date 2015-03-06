@@ -16,6 +16,7 @@ gulp.task('connect', function (next) {
     server.use(historyApiFallback);
 
     // Routes
+    server.use(connect.static('./'));
     server.use(connect.static('./src'));
     server.use(connect.static('./.tmp'));
 
