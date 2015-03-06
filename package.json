@@ -6,9 +6,7 @@
       "url": "git@github.com:magnumjs/praetor.js.git"
     },
 	"scripts": {
-	  "test" : "./node_modules/jasmine-node/bin/jasmine-node --requireJsSetup ./tests/requirejs-setup.js --verbose tests/*-spec.js",
-	  "build-js" : "browserify praetor.js -d -p > praetor.min.js",
-	  "minify" : "browserify praetor.js -d -p [minifyify --map praetor.map.json --output praetor.map.json] > praetor.min.js"
+		"test" : "./node_modules/karma/bin/karma start"
 	},
 	"main": "praetor.js",
 	"dependencies" : {
@@ -16,6 +14,9 @@
 	},
 	"devDependencies": {
 	  "jasmine-node": "latest",
+	  "jasmine-core": "latest",
+	  "karma-jasmine":"latest",
+	  "karma-script-launcher":"latest",
 	  "minifyify" : "latest",
 	  "browserify" : "latest",
 	  "amdclean" : "latest"

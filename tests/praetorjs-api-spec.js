@@ -3,6 +3,11 @@
 describe("PraetorJS", function() {
   var booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';
   var books = JSON.parse(booksString);
+
+  it("is defined", function() {
+    expect(p).toBeDefined();
+  });
+
   p.setDataStore('books', books);
   it("can set & get a data store", function() {
     expect(p.getDataStore('books')).toEqual(books);

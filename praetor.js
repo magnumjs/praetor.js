@@ -21,7 +21,7 @@ var p = (function(require, jsonpath, undefined) {
   var isNode = typeof module !== 'undefined' && !!module.exports;
 
   jsonpath =typeof jsonpath !== 'undefined' ? jsonpath : (isNode && require && typeof require == 'function' ?
-                                                          require('jsonpath') :  null);
+                                                          require('jsonpath') :  undefined);
 
   if(!jsonpath)throw Error("JSONPath is required: (https://github.com/s3u/JSONPath)")
 
@@ -189,9 +189,9 @@ var p = (function(require, jsonpath, undefined) {
 
   return p
 
-})(typeof require === 'undefined' ? null : require, typeof jsonpath === 'undefined' ? typeof JSONPath === 'undefined' ? null: JSONPath : jsonpath);
+})(typeof require === 'undefined' ? undefined : require, typeof jsonpath === 'undefined' ? typeof JSONPath === 'undefined' ? undefined: JSONPath : jsonpath);
 
 if (typeof module != "undefined" && module !== null && module.exports) module.exports = p;
-else if (typeof define === "function" && define.amd) define('jsonpath',function() {
+else if (typeof define === "function" && define.amd) define('',['jsonpath'],function(jsonpath) {
   return p
 });
