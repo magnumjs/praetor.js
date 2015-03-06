@@ -117,22 +117,4 @@ describe("PraetorJS", function() {
       expect(p.getDataStore('test2', 'id')).toEqual(undefined);
     });
   });
-  describe('p.proc()', function() {
-    it('can take json and single jsonpath queriy to render a result json', function() {
-      expect(p.proc(books, ['$..title'])).toEqual([
-        ['kids', 'action']
-      ]);
-    })
-    it('can take json and multiple jsonpath queries to render a result json', function() {
-      expect(p.proc(books, ['$..title', '$..author'])).toEqual([
-        ['kids', 'action'],
-        ['adams', 'johns']
-      ]);
-    })
-    it('can take json and single jsonpath queriy to render a result json with code', function() {
-      expect(p.proc(books, ['$..title'], 'this.results[0].reverse()')).toEqual([
-        ['action', 'kids']
-      ]);
-    })
-  })
 });
