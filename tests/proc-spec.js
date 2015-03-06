@@ -1,6 +1,3 @@
-if (typeof require !== 'undefined') {
-    p = require("praetor")
-}
 
 describe('p.proc()', function () {
 

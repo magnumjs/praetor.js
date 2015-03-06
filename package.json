@@ -6,13 +6,18 @@
       "url": "git@github.com:magnumjs/praetor.js.git"
     },
 	"scripts": {
-	  "test" : "./node_modules/jasmine-node/bin/jasmine-node --verbose --junitreport --noColor tests/*-spec.js"
+	  "test" : "./node_modules/jasmine-node/bin/jasmine-node --requireJsSetup ./tests/requirejs-setup.js --verbose tests/*-spec.js",
+	  "build-js" : "browserify praetor.js -d -p > praetor.min.js",
+	  "minify" : "browserify praetor.js -d -p [minifyify --map praetor.map.json --output praetor.map.json] > praetor.min.js"
 	},
 	"main": "praetor.js",
 	"dependencies" : {
 	    "jsonpath" : "git://github.com/s3u/JSONPath"
 	},
 	"devDependencies": {
-	  "jasmine-node": "latest"
+	  "jasmine-node": "latest",
+	  "minifyify" : "latest",
+	  "browserify" : "latest",
+	  "amdclean" : "latest"
 	}
 }
