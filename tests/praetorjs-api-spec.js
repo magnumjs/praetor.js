@@ -1,3 +1,5 @@
+p = require("praetor")
+
 // specs code
 describe("PraetorJS", function() {
   var booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';

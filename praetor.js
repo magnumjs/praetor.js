@@ -1,4 +1,4 @@
-var JSONPath = require("JSONPath")// JSONPathStoredProc (JPSP)
+//var JSONPath = require("JSONPath")// JSONPathStoredProc (JPSP)
 
 // using JSONpath query syntax 
 // query a data store JSON object

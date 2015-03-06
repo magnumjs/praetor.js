@@ -6,11 +6,13 @@
       "url": "git@github.com:magnumjs/praetor.js.git"
     },
 	"scripts": {
+	  "test" : "./node_modules/jasmine-node/bin/jasmine-node --verbose --junitreport --noColor tests/praetorjs-api-spec.js"
 	},
 	"main": "praetor.js",
 	"dependencies" : {
 	    "jsonpath" : "git://github.com/s3u/JSONPath"
 	},
 	"devDependencies": {
+	  "jasmine-node": "latest"
 	}
 }
