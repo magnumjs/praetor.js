@@ -1,5 +1,5 @@
 m = require('mithril');
-tabbed = require("./tabs")
+tabbed = require("../components/tabs")
 
 
 var app = {}

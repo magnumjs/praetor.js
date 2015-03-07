@@ -1,7 +1,7 @@
 m = require('mithril');
 p = require("praetor")
-passFail = require("./pass-fail")
-tabbed = require("./tabs")
+passFail = require("../components/pass-fail")
+tabbed = require("../components/tabs")
 
 var app = app || {}
 app.forms = {}
