@@ -30,7 +30,7 @@ var query = function() {
 
             this.actions = app.data.model('queries')
             this.list = this.actions.getList()
-            
+
             // initialize praeter.js
             p({queries:this.list});
 
