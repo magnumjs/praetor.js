@@ -2,14 +2,15 @@ m = require('mithril');
 modal = require('./components/modal')
 main = require('./main')
 
-var app   = main.app,
-    demo  = main.demo,
-    store = main.store,
-    query = main.query
+var persist  = main.persist,
+    demo     = main.demo,
+    store    = main.store,
+    query    = main.query
 
 //top level component
-
+var app ={}
 app.controller = function() {
+    persist.init()
     this.id = m.prop(0)
     this.welcomeMessage=m('.content',[
       m('.panel','Welcome to the PraetorJS administration editor demo page!',[

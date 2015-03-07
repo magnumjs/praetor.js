@@ -31,7 +31,7 @@ var form = function() {
             m.module(passFail(),{
                 pass:ctrl.pass,fail:ctrl.fail,message:{pass:"yay!", fail:"boo!"}
             }),
-            'Add store', [
+            'Add store - p.setDataStore(storeName, JSONData)', [
                 m('input[placeholder="store name"]', {
                     onchange: m.withAttr("value", ctrl.model.name),
                     value: ctrl.model.name()

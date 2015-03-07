@@ -2,7 +2,7 @@
 
 m = require('mithril');
 p = require("praetor")
-app = require("../../modules/app-modules.js")
+persist = require("../../persistence.js")
 passFail = require("../../components/pass-fail")
 tabbed = require("../../components/tabs")
 books = require('../../../data/books')
@@ -11,8 +11,8 @@ var list = require('../../modules/store/list')
 var form = require('../../modules/store/form')
 
 
-app.booksString = JSON.stringify(books);
-app.books = JSON.parse(app.booksString);
+//app.booksString = JSON.stringify(books);
+//app.books = JSON.parse(app.booksString);
 
 var store=function(){
 
@@ -32,7 +32,7 @@ var store=function(){
         controller: function() {
             this.data = tabs.data
 
-            this.actions = app.data.model('stores')
+            this.actions = persist.model('stores')
             this.list = this.actions.getList()
 
             // initialize praeter.js

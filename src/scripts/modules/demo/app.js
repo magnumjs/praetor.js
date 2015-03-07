@@ -1,17 +1,16 @@
 m = require('mithril');
-p = require("praetor")
-persist = require("../../persistence.js")
-passFail = require("../../components/pass-fail")
 tabbed = require("../../components/tabs")
+utils = require('../../utils')
+books = require('../../../data/books')
 
-var list = require('../../modules/query/list')
-var form = require('../../modules/query/form')
-
-// query module
-var query = function() {
+var list = require('../../modules/demo/list')
+var form = require('../../modules/demo/form')
 
 
-    var module = {
+// app demo/p.proc module
+var demo=function(){
+
+    var tabs = {
         //model
         data: {
             "selectedItem": "create",
@@ -19,28 +18,25 @@ var query = function() {
                          "name": "create",
                          "content": form
                      }, {
-                         "name": "list",
+                         "name": "results",
                          "content": list
                      }]
         },
+        //controller
+        controller: function() {
+            this.data = tabs.data
 
-        controller: function () {
+            this.list = m.prop([])
+            this.code = m.prop("")
+            this.state = m.prop({})
 
-            this.data = module.data
-
-            this.actions = persist.model('queries')
-            this.list = this.actions.getList()
-
-            // initialize praeter.js
-            p({queries:this.list});
 
             this.changeTab = function(name) {
                 this.data.selectedItem = name
             }.bind(this)
-
         },
-
-        view: function (ctrl) {
+        //view
+        view: function(ctrl) {
             var options = {
                 tabs        : ctrl.data.tabs,
                 selectedItem: ctrl.data.selectedItem,
@@ -50,13 +46,16 @@ var query = function() {
             return m("div", {
                      },
                      m.module(tabbed, options, {
-                         list    : ctrl.list,
-                         actions : ctrl.actions
+                         state       : ctrl.state,
+                         list        : ctrl.list,
+                         code        : ctrl.code,
+                         actions     : ctrl.actions,
+                         changeTab   : ctrl.changeTab
                      })
             )
         }
     }
-    return module;
+    return tabs
 }
 
-module.exports = query
+module.exports = demo
