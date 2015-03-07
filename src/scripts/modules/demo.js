@@ -1,10 +1,11 @@
 m = require('mithril');
 tabbed = require("../components/tabs")
 utils = require('../utils')
+books = require('../../data/books')
 
 var app = {}
 
-app.booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';
+app.booksString = JSON.stringify(books);
 app.books = JSON.parse(app.booksString);
 
 // app demo/p.proc module
