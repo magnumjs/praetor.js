@@ -42,7 +42,7 @@ var p = (function(undefined) {
   function createFunctionExec(queryResults, storedProc, parms) {
     // create temp function
     var fun = Function(storedProc.codeBody)
-
+    parms = parms||{}
     //merge parms with defaults 
     //TODO: parms will override if attr don't exist
     for (var attr in storedProc.parms) {
@@ -75,8 +75,8 @@ var p = (function(undefined) {
       options  = {}, // user supplied
       settings = {} // combo of defaults and over rides in options
 
-  var OBJECT = "[object Object]"
-  var type = {}.toString;
+  var OBJECT = "[object Object]", ARRAY = "[object Array]", STRING = "[object String]", FUNCTION = "function"
+  var type = {}.toString
 
   // initializer
   function p(state, id, options) {
@@ -115,9 +115,38 @@ var p = (function(undefined) {
     return this.state[p.id]
   }
 
-  p.proc = function(json, queries, code, parms) {
+  // setting a named proc
+  p.procWith = function(name, storeName, queries, code, parms){
+    // if 1 argument run it
+    if(arguments.length==1){
+      return p.getStoredProcResult(name, id)
+    } else {
+      p.setJsonQuery(name, queries, storeName, id)
+      p.setStoredProc(name, name, code, parms, id)
+    }
+  }
+
+  p.proc = function(name, json, queries, code, parms, id) {
+    // if 1 argument run it
+    if(arguments.length==1){
+      return p.getStoredProcResult(name)
+    }
+    // store the proc if named
+    if(name){
+      return p.setStoredProc(name, queries, code, parms, id)
+    }
+    // if JSON is a string check store names
+    if(type.call(json)===STRING){
+      json= p.getDataStore(json, id)
+      // add the queries to the store?
+      // under the proc name?
+    }
     // can be raw or by stored names
     var queryResults = queries.map(function(query, idx) {
+      // check if it's a name query
+      if(p.getJsonQuery(query, id)){
+        return p.getJsonQueryResult(query, id)
+      }
       return getjsonpath()(p.settings().jsonPathOptions, json, query)
     })
     var storedProc = {
