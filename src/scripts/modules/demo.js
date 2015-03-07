@@ -3,13 +3,12 @@ tabbed = require("../components/tabs")
 utils = require('../utils')
 books = require('../../data/books')
 
-var app = {}
 
 app.booksString = JSON.stringify(books);
 app.books = JSON.parse(app.booksString);
 
 // app demo/p.proc module
-app.demo=function(){
+var demo=function(){
 
 
     var tabs = {
@@ -18,10 +17,10 @@ app.demo=function(){
             "selectedItem": "create",
             "tabs": [{
                          "name": "create",
-                         "content": app.demo.form
+                         "content": demo.form
                      }, {
                          "name": "results",
-                         "content": app.demo.results
+                         "content": demo.results
                      }]
         },
         //controller
@@ -59,7 +58,8 @@ app.demo=function(){
     }
     return tabs
 }
-app.demo.form = function() {
+
+demo.form = function() {
 
     var module = {name:'demo-form'}
 
@@ -123,7 +123,7 @@ app.demo.form = function() {
     return module
 }
 
-app.demo.results = function() {
+demo.results = function() {
     var module = {}
 
     module.controller = function(props) {
@@ -140,4 +140,4 @@ app.demo.results = function() {
     return module
 }
 
-module.exports = app
+module.exports = demo

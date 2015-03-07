@@ -18,7 +18,6 @@ app.data.init = function() {
                 map[val][k] = JSON.parse(map[val][k])
         }
     });
-    p.setState(map);
     console.log('state set')
 }();
 
@@ -28,7 +27,9 @@ app.data.model = function(name) {
             localStorage[name] = JSON.stringify(list)
         },
         getList: function() {
-            return JSON.parse(localStorage[name] || '{}')
+            if(localStorage[name])
+                return JSON.parse(localStorage[name])
+            return {}
         }
     }
 }

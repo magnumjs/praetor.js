@@ -1,49 +1,45 @@
-m = require('mithril');
-p = require("praetor")
-app = require("../modules/app-modules.js")
-passFail = require("../components/pass-fail")
-tabbed = require("../components/tabs")
-
-var app = app || {}
 
 
-// query module
-app.query = function() {
+var form = function() {
 
     var module = {}
 
-    module.controller = function() {
-
+    module.controller = function(props) {
         this.model = {
             name: m.prop(''),
             query: m.prop(''),
             store: m.prop('')
-        };
-        this.list = module.model.getList();
+        }
+
+        this.actions = props.actions
+        this.list    = props.list
+
+        this.pass    = m.prop("")
+        this.fail    = m.prop("")
 
         this.save = function() {
-            this.list[this.model.name()] = {
-                query: this.model.query(),
-                store: this.model.store()
+            if(this.model.name() && this.model.store() && this.model.query()){
+
+                this.list[this.model.name()] = {
+                    query: this.model.query(),
+                    store: this.model.store()
+                }
+                this.actions.saveList(this.list);
+                p.setJsonQuery(this.model.name(), this.model.query(), this.model.store());
+
+            } else {
+                this.fail(true)
             }
-            module.model.saveList(this.list);
-            p.setJsonQuery(this.model.name(), this.model.query(), this.model.store());
-        }.bind(this);
+        }.bind(this)
 
-    }
-
-    module.model = {
-        saveList: function(list) {
-            localStorage['queries'] = JSON.stringify(list);
-        },
-        getList: function() {
-            return JSON.parse(localStorage['queries'] || '{}');
-        }
     }
 
     module.view = function(ctrl) {
         return m('.form', [
-            'Add query', [
+            m.module(passFail(),{
+                pass:ctrl.pass,fail:ctrl.fail,message:{pass:"yay!", fail:"boo!"}
+            }),
+            'Add store', [
                 m('input[placeholder="query name"]', {
                     onchange: m.withAttr("value", ctrl.model.name),
                     value: ctrl.model.name()
@@ -62,7 +58,7 @@ app.query = function() {
             ]
         ])
     }
-    return module;
+    return module
 }
 
-module.exports = app.query
+module.exports = form

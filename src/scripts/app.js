@@ -23,9 +23,9 @@ app.controller = function() {
 function mapActions(ctrl, options){
     var style = (options || {}).style
     var actionMap =[
-        { text : 'Simple Demo', type:demo.demo},
-        { text : 'API::Create Stores', type:app.store},
-        { text : 'API::Create Queries', type:app.query},
+        { text : 'Simple Demo', type:demo},
+        { text : 'API::Create Stores', type:store},
+        { text : 'API::Create Queries', type:query},
         // { text : 'Create named pure JS code Blocks with named queried results', type:'proc'},
         // { text : 'Get the state & set the state', type:'state'}
     ]

@@ -1,22 +1,17 @@
-// app store module
-
 m = require('mithril');
 p = require("praetor")
 app = require("../../modules/app-modules.js")
 passFail = require("../../components/pass-fail")
 tabbed = require("../../components/tabs")
-books = require('../../../data/books')
 
-var list = require('../../modules/store/list')
-var form = require('../../modules/store/form')
+var list = require('../../modules/query/list')
+var form = require('../../modules/query/form')
+
+// query module
+var query = function() {
 
 
-app.booksString = JSON.stringify(books);
-app.books = JSON.parse(app.booksString);
-
-var store=function(){
-
-    var tabs = {
+    var module = {
         //model
         data: {
             "selectedItem": "create",
@@ -28,23 +23,24 @@ var store=function(){
                          "content": list
                      }]
         },
-        //controller
-        controller: function() {
-            this.data = tabs.data
 
-            this.actions = app.data.model('stores')
+        controller: function () {
+
+            this.data = module.data
+
+            this.actions = app.data.model('queries')
             this.list = this.actions.getList()
-
+            
             // initialize praeter.js
-            p({stores:this.list});
+            p({queries:this.list});
 
             this.changeTab = function(name) {
                 this.data.selectedItem = name
             }.bind(this)
 
         },
-        //view
-        view: function(ctrl) {
+
+        view: function (ctrl) {
             var options = {
                 tabs        : ctrl.data.tabs,
                 selectedItem: ctrl.data.selectedItem,
@@ -60,7 +56,7 @@ var store=function(){
             )
         }
     }
-    return tabs
+    return module;
 }
 
-module.exports = store
+module.exports = query
