@@ -1,4 +1,4 @@
-/* Praeter.js 0.1.2 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
+/* Praeter.js 0.1.3 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
  *
  * Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)
  * Licensed under the MIT (MIT-LICENSE.txt) licence.
