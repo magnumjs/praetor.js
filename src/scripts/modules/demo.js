@@ -1,6 +1,6 @@
 m = require('mithril');
 tabbed = require("../components/tabs")
-
+utils = require('../utils')
 
 var app = {}
 
@@ -9,6 +9,7 @@ app.books = JSON.parse(app.booksString);
 
 // app demo/p.proc module
 app.demo=function(){
+
 
     var tabs = {
         //model
@@ -28,11 +29,12 @@ app.demo=function(){
 
             this.list = m.prop([])
             this.code = m.prop("")
+            this.state = m.prop({})
+
 
             this.changeTab = function(name) {
                 this.data.selectedItem = name
             }.bind(this)
-
         },
         //view
         view: function(ctrl) {
@@ -45,6 +47,7 @@ app.demo=function(){
             return m("div", {
                      },
                      m.module(tabbed, options, {
+                         state       : ctrl.state,
                          list        : ctrl.list,
                          code        : ctrl.code,
                          actions     : ctrl.actions,
@@ -57,14 +60,16 @@ app.demo=function(){
 }
 app.demo.form = function() {
 
-    var module = {}
+    var module = {name:'demo-form'}
 
     module.controller = function(props) {
-        this.model = {
+        this.model =props.state()[module.name] || {
             store   : m.prop(''),
             queries : m.prop(''),
             code    : m.prop('')
         }
+
+        props.state({'demo-form':this.model});
 
         this.results = m.prop("")
         this.pass    = m.prop("")
@@ -78,9 +83,9 @@ app.demo.form = function() {
 
         this.save = function() {
             if(this.model.store() && this.model.queries() && this.model.code()){
-                this.results(p.proc(JSON.parse(this.model.store()),this.model.queries().split(','), this.model.code()))
+                this.results(p.proc(null,JSON.parse(this.model.store()),this.model.queries().split(','), this.model.code()))
                 this.pass(true)
-                props.code('p.proc('+this.model.store()+',\''+this.model.queries().split(',')+'\', \''+this.model.code()+'\')')
+                props.code('p.proc(null,'+this.model.store()+',\''+this.model.queries().split(',')+'\', \''+this.model.code()+'\')')
                 props.list(this.results)
                 props.changeTab("results")
             } else {
@@ -121,11 +126,14 @@ app.demo.results = function() {
     var module = {}
 
     module.controller = function(props) {
+        this.setArea=function(element, isInit, context){
+            utils.resizeTextarea(element.id)
+        }
     }
     module.view = function(ctrl, state) {
         return m('.results',[
-            m('textarea',JSON.stringify(state.list())),
-            m('textarea',state.code()),
+            m('textarea#list',{config:ctrl.setArea},JSON.stringify(state.list())),
+            m('textarea#code',{config:ctrl.setArea},state.code()),
         ])
     }
     return module
