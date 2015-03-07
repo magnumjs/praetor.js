@@ -13,7 +13,7 @@
 // name a code block against that query resultset
 // get the state - to reuse it elsewhere
 
-var p = (function(JSONPath, undefined) {
+var p = (function(undefined) {
   'use strict';
 
   function getjsonpath(){
@@ -185,13 +185,14 @@ var p = (function(JSONPath, undefined) {
 
   return p
 
-})(typeof JSONPath === 'undefined' ? undefined: JSONPath );
+})();
 
 
 if (typeof module != "undefined" && module !== null && module.exports){
-  require('JSONPath')
+  JSONPath=require('JSONPath')
   module.exports = p
 }
 else if (typeof define === "function" && define.amd) define('',['JSONPath'],function(JSONPath) {
+  JSONPath=JSONPath
   return p
 });
