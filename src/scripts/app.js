@@ -1,7 +1,11 @@
 m = require('mithril');
 modal = require('./components/modal')
-app = require('./modules/app-modules')
-demo = require('./modules/demo')
+main = require('./main')
+
+var app   = main.app,
+    demo  = main.demo,
+    store = main.store,
+    query = main.query
 
 //top level component
 
@@ -20,8 +24,8 @@ function mapActions(ctrl, options){
     var style = (options || {}).style
     var actionMap =[
         { text : 'Simple Demo', type:demo.demo},
-        { text : 'Create a stateful map of stores', type:app.store},
-        // { text : 'Create named JSONPath queries on those stores', type:'query'},
+        { text : 'API::Create Stores', type:app.store},
+        { text : 'API::Create Queries', type:app.query},
         // { text : 'Create named pure JS code Blocks with named queried results', type:'proc'},
         // { text : 'Get the state & set the state', type:'state'}
     ]
