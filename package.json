@@ -20,7 +20,6 @@
   },
   "main": "praetor.js",
   "dependencies": {
-    "praetor": "git://github.com/magnumjs/praetor.js",
     "JSONPath": "git://github.com/s3u/JSONPath"
   },
   "devDependencies": {
