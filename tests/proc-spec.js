@@ -4,7 +4,7 @@ describe('p.proc()', function () {
     var booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';
     var books = JSON.parse(booksString);
 
-    it('can take json and single jsonpath queriy to render a result json', function () {
+    it('can take json and single jsonpath query to render a result json', function () {
         expect(p.proc(books, ['$..title'])).toEqual([
                                                         ['kids', 'action']
                                                     ]);

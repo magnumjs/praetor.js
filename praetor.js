@@ -1,4 +1,4 @@
-/* Praeter.js 0.1 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
+/* Praeter.js 0.1.2 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
  *
  * Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)
  * Licensed under the MIT (MIT-LICENSE.txt) licence.
@@ -13,17 +13,13 @@
 // name a code block against that query resultset
 // get the state - to reuse it elsewhere
 
-var p = (function(require, jsonpath, undefined) {
+var p = (function(JSONPath, undefined) {
   'use strict';
 
-  // Make sure to know if we are in real node or not (the `require` variable
-// could actually be require.js, for example.
-  var isNode = typeof module !== 'undefined' && !!module.exports;
-
-  jsonpath =typeof jsonpath !== 'undefined' ? jsonpath : (isNode && require && typeof require == 'function' ?
-                                                          require('jsonpath') :  undefined);
-
-  if(!jsonpath)throw Error("JSONPath is required: (https://github.com/s3u/JSONPath)")
+  function getjsonpath(){
+    if(!JSONPath)throw new Error("JSONPath is required: (https://github.com/s3u/JSONPath)")
+    return JSONPath
+  }
 
   // UTIL FUNCTIONS
   var realMerge = function(to, from) {
@@ -122,7 +118,7 @@ var p = (function(require, jsonpath, undefined) {
   p.proc = function(json, queries, code, parms) {
     // can be raw or by stored names
     var queryResults = queries.map(function(query, idx) {
-      return jsonpath(p.settings().jsonPathOptions, json, query)
+      return getjsonpath()(p.settings().jsonPathOptions, json, query)
     })
     var storedProc = {
       parms: parms,
@@ -152,7 +148,7 @@ var p = (function(require, jsonpath, undefined) {
   p.getJsonQueryResult = function(name, id) {
     var jsonQuery = p.getJsonQuery(name, id)
     var data = p.getDataStore(jsonQuery.store, id)
-    var result = jsonpath(p.settings().jsonPathOptions, data, jsonQuery.query)
+    var result = getjsonpath()(p.settings().jsonPathOptions, data, jsonQuery.query)
     return result
   }
 
@@ -189,9 +185,13 @@ var p = (function(require, jsonpath, undefined) {
 
   return p
 
-})(typeof require === 'undefined' ? undefined : require, typeof jsonpath === 'undefined' ? typeof JSONPath === 'undefined' ? undefined: JSONPath : jsonpath);
+})(typeof JSONPath === 'undefined' ? undefined: JSONPath );
 
-if (typeof module != "undefined" && module !== null && module.exports) module.exports = p;
-else if (typeof define === "function" && define.amd) define('',['jsonpath'],function(jsonpath) {
+
+if (typeof module != "undefined" && module !== null && module.exports){
+  require('JSONPath')
+  module.exports = p
+}
+else if (typeof define === "function" && define.amd) define('',['JSONPath'],function(JSONPath) {
   return p
 });
