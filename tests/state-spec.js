@@ -63,7 +63,7 @@ describe("getState",function(){
         p({stores:{movies:data},queries:{"byDrama":{store:"movies",query:"$..movies[?(@.genres.indexOf('Drama')>-1)]"}}}) // allows the store to be used elsewhere by other praetors
 
         //run proc once data loaded
-        expect(p.proc('getTopDramaMovies')[0].byDrama.length).toEqual(2)
+        expect(p.proc({name:'getTopDramaMovies'})[0].byDrama.length).toEqual(2)
         //remove the store
         //p.emptyDataStore('movies')
         p({stores:{movies:{movies:null}}})

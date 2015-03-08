@@ -21,7 +21,7 @@ describe('p.proc()', function () {
         p.setStoredProc('convertBookTitles2', ['getBookTitles'], code, {
             upperCase: false
         })
-        var results = p.proc('convertBookTitles2');
+        var results = p.proc({name:'convertBookTitles2'});
 
         expect(results[0].getBookTitles).toEqual(
             ['kids', 'action']
@@ -41,7 +41,7 @@ describe('p.proc()', function () {
         })
 
         expect(p.getStoredProc('convertBookTitles23')).not.toEqual({})
-        var results = p.proc('convertBookTitles23');
+        var results = p.proc({name:'convertBookTitles23'});
 
         expect(results[0].getBookTitles).toEqual(
             ['kids', 'action']

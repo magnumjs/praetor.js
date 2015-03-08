@@ -176,10 +176,11 @@ var p = (function (undefined) {
         }
     }
 
+    // TODO: refactor into above method with this function name
     p.proc = function (name, json, queries, code, parms, id) {
         // if 1 argument run it
-        if (arguments.length == 1) {
-            return p.getStoredProcResult(name)
+        if (arguments.length == 1 && type.call(name) == OBJECT) {
+            return p.getStoredProcResult(name.name, name.parms, name.id)
         }
         // store the proc if named
         if (name) {
@@ -195,7 +196,11 @@ var p = (function (undefined) {
         var queryResults = queries.map(function (query, idx) {
             // check if it's a name query
             if (p.getJsonQuery(query, id)) {
-                return p.getJsonQueryResult(query, id)
+                return p.getJsonQueryResult(query, parms, id)
+            }
+            // interpolate the query with the parms
+            for(var k in parms){
+                query=query.split(k).join(parms[k])
             }
             return getjsonpath()(p.settings().jsonPathOptions, json, query)
         })
@@ -232,9 +237,14 @@ var p = (function (undefined) {
     p.getJsonQuery = function (name, id) {
         return p.map(id).queries[name]
     }
-    p.getJsonQueryResult = function (name, id) {
+    p.getJsonQueryResult = function (name, parms, id) {
         var jsonQuery = p.getJsonQuery(name, id)
         var data = p.getDataStore(jsonQuery.store, id)
+
+        // interpolate the query with the parms
+        for(var k in parms){
+            jsonQuery.query=jsonQuery.query.split(k).join(parms[k])
+        }
         var result = getjsonpath()(p.settings().jsonPathOptions, data, jsonQuery.query)
         return result
     }
@@ -253,11 +263,10 @@ var p = (function (undefined) {
     p.getStoredProcResult = function (name, parms, id) {
         var storedProc = p.getStoredProc(name, id)
         var queryResults = [];
-
         // get all results
         queryResults = storedProc.queries.map(function (val, idx) {
             var result = {}
-            result[val] = p.getJsonQueryResult(val, id)
+            result[val] = p.getJsonQueryResult(val, parms, id)
             return result
         })
 
