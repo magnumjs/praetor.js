@@ -180,9 +180,9 @@ By default there is no ID required and everything is global all state is accessi
 
 Every method has a last argument optional id to identify the state you are discussing with that method
 ```javascript
-p(state, options, id) // is an initializer function it will overwrite any existing state
+p(state, options, id) // it will merge any existing state
 
-p.setState(state, id) // it will merge with any existing state
+p.setState(state, id) // it will overwrite with any existing state
 
 p.getState(id)
 ```
