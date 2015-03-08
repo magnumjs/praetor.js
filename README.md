@@ -3,11 +3,29 @@
 ####JSON Path Stored Procedures
 A tiny JSON processing tunnel tier library, to query and filter results with stored JS procedures
 
+##WHY
+Praetorjs - the tiny tunnel-tier library that can create & run named stored procedures (JSONPath queries & JS code)
+
+It is designed to manipulate JSON data after it is fetched & before it is rendered, in a pre-determined callable way.
+
+Real world example - create & edit your procedures - name them, everything is important except for the actual data (stores), that comes at run time.
+
+When you fetch real data, attach it to the previously named stores, then execute your procedures against them to get your results.
+
+```javascript
+// pre-define a procedure - this is a simple JSONPath Query only example - no JS code or parms
+p.proc('getTopActionMovies','movies',"$..data.movies[?(@.genres.indexOf('Action')>-1)]",/* code, parms, id */)
+// get some realtime data
+getMoviesAJAX().then(data){
+  p({stores:{movies:data}}, id) // allows the store to be used elsewhere by other praetors
+  return p.proc('getTopActionMovies'/*, params, id */)
+}
+```
 ## Getting started
 
 Download Praetor.JS
 ```html
-<script src="//cdn.rawgit.com/magnumjs/praetor.js/master/dist/praetor-0.1.3.min.js"></script>
+<script src="//cdn.rawgit.com/magnumjs/praetor.js/master/dist/praetor-0.1.4.min.js"></script>
 ```
 
 Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
@@ -86,3 +104,69 @@ console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['
 http://rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
 
 > Created by Michael Glazer 3/1/2015
+
+#More
+
+###Simple nomenclature
+
+### Simple data model
+
+```javascript
+model : {
+  stores : {},
+  queries : {},
+  procs : {}
+}
+```
+
+That is the basic praetor state model
+
+the structures for each of this top nodes are as follows:
+
+###Stores
+```javascript
+  { stores : {
+    storename (String) : data (Object)
+    } 
+  }
+  
+  e.g. {stores: {books:{[{title:"book1"},{title:"book2"},{title:"book3"}]} } }
+```
+###Queries
+```javascript
+{queries : { 
+  queryName (String) : {
+    query: JsonPathQuery (String),
+    store: storeName (String)
+  }
+}
+
+e.g.
+```
+
+###Procs
+```javascript
+{procs : {
+  procName (String): {
+    namedQueries: [] (Array), // must be an array if comma separated then split
+    codeBody: '' (String),
+    parms: {} (Object)
+  }
+} 
+        e.g.
+```
+
+
+### State & IDs
+
+By default there is no ID required and everything is global all state is accessible from the same praetor instance
+
+Every method has a last argument optional id to identify the state you are discussing with that method
+```javascript
+p(state, options, id) // is an initializer function it will overwrite any existing state
+
+p.setState(state, id) // it will merge with any existing state
+
+p.getState(id)
+```
+

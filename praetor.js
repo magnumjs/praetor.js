@@ -15,11 +15,12 @@
 
 var p = (function (undefined) {
     'use strict';
+    var rootid = 'rootid'
 
     function getjsonpath() {
-      if (!JSONPath) {
-        throw new Error("JSONPath is required: (https://github.com/s3u/JSONPath)")
-      }
+        if (typeof JSONPath === 'undefined') {
+            throw new Error("JSONPath is required: (https://github.com/s3u/JSONPath)")
+        }
         return JSONPath
     }
 
@@ -34,6 +35,14 @@ var p = (function (undefined) {
         }
         return to;
     };
+
+    // TODO: why two mege functions, diff, nested issues?
+    function copy(to, from) {
+        for (var attr in from) {
+            to[attr] = to[attr] === undefined ? from[attr] : to[attr]
+        }
+        return to
+    }
 
     function createFunctionExec(queryResults, storedProc, parms) {
         // create temp function
@@ -52,14 +61,16 @@ var p = (function (undefined) {
         }
         // execute proc and return results
         var ret = fun.apply(context)
-      if (ret) {
-        return ret
-      }
+        if (ret) {
+            return ret
+        }
         return context.results
     }
 
     // UTIL FUNCTIONS
 
+    //TODO: is map necessary?
+    // since we now have p.model?
     // data contruct
     var map = {}
     map.stores = {}
@@ -94,7 +105,7 @@ var p = (function (undefined) {
         // attach to id
         p.setOptions(options, id)
         //merge incoming state with copy of model
-        var nstate = realMerge(state, JSON.parse(JSON.stringify(model)))
+        var nstate = copy(state || {}, p.getState(id) || JSON.parse(JSON.stringify(model)))
         p.map(id, nstate)
     }
 
@@ -124,10 +135,11 @@ var p = (function (undefined) {
             this.state[id] = state || this.state[id] || JSON.parse(JSON.stringify(model))
             return this.state[id]
         }
-        this.state[p.id] = state || this.state[p.id] || map
-        return this.state[p.id]
+        this.state[rootid] = state || this.state[rootid] || map
+        return this.state[rootid]
     }
 
+    // TODO: remove is this necessary seems redundant to p.proc
     // setting a named proc
     p.procWith = function (name, storeName, queries, code, parms) {
         // if 1 argument run it
@@ -196,7 +208,7 @@ var p = (function (undefined) {
 
     p.setStoredProc = function (name, namedQueries, codeBody, parms, id) {
         p.map(id).procs[name] = {
-            namedQueries: namedQueries,
+            namedQueries: type.call(namedQueries) == ARRAY ? namedQueries : namedQueries.split(','), // must be an array if comma separated then split
             codeBody: codeBody,
             parms: parms
         }
@@ -208,18 +220,20 @@ var p = (function (undefined) {
     p.getStoredProcResult = function (name, parms, id) {
         var storedProc = p.getStoredProc(name, id)
         var queryResults = [];
+
         // get all results
         queryResults = storedProc.namedQueries.map(function (val, idx) {
             var result = {}
             result[val] = p.getJsonQueryResult(val, id)
             return result
         })
+
         return createFunctionExec(queryResults, storedProc, parms);
     }
 
     // api methods
     p.setState = function (state, id) {
-        var nstate = realMerge(state, JSON.parse(JSON.stringify(model)))
+        var nstate = realMerge(state || {}, JSON.parse(JSON.stringify(model)))
         p.map(id, nstate)
     }
     p.getState = function (id) {
@@ -228,7 +242,6 @@ var p = (function (undefined) {
     }
 
     return p
-
 })();
 
 if (typeof module != "undefined" && module !== null && module.exports) {
@@ -236,8 +249,7 @@ if (typeof module != "undefined" && module !== null && module.exports) {
     module.exports = p
 }
 else if (typeof define === "function" && define.amd) {
-  define('', ['JSONPath'], function (JSONPath) {
-    JSONPath = JSONPath
-    return p
-  });
+    define('', ['JSONPath'], function (JSONPath) {
+        return p
+    });
 }
