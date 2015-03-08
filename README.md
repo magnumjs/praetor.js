@@ -130,7 +130,11 @@ the structures for each of this top nodes are as follows:
     } 
   }
   
-  e.g. {stores: {books:{[{title:"book1"},{title:"book2"},{title:"book3"}]} } }
+  e.g. 
+  p ( {stores: {books:{[{title:"book1"},{title:"book2"},{title:"book3"}]} } }  /*, id */ )
+  will add & overwrite that store name in the state
+  given an optional last argument id it will be only in that ids state map
+
 ```
 ###Queries
 ```javascript
@@ -141,7 +145,8 @@ the structures for each of this top nodes are as follows:
   }
 }
 
-e.g.
+  e.g.
+  p ( {queries : { getAllBookTitles : { query : "$..title", store : "books" }} )
 ```
 
 ###Procs
@@ -153,8 +158,20 @@ e.g.
     parms: {} (Object)
   }
 } 
-        e.g.
+  e.g.
+  
+  p ( {procs : { sortBookTitles : { namedQueries : ['getAllBookTitles'], codeBody : "this.results[0]['getAllBookTitles'].reverse()", parms: {} }} )
 ```
+####Notes
+parms are an optional map of default parameters that can be overwritten when the stored procedure is executed
+
+in codebody you get a context with two properties
+this.results (an array of results sets matching the name of your query
+this.parms (the map of default and or overwritten parameters sent in)
+
+Whatever you set to the this.results is what will be returned at run time
+You can also return 
+
 
 
 ### State & IDs
