@@ -5,6 +5,7 @@ main = require('./main')
 var persist  = main.persist,
     demo     = main.demo,
     store    = main.store,
+    dash     = main.dash,
     query    = main.query
 
 //top level component
@@ -27,6 +28,8 @@ function mapActions(ctrl, options){
         { text : 'Simple Demo', type:demo},
         { text : 'API::Create Stores', type:store},
         { text : 'API::Create Queries', type:query},
+        { text : 'Dashboard Card Demo', type:dash},
+
         // { text : 'Create named pure JS code Blocks with named queried results', type:'proc'},
         // { text : 'Get the state & set the state', type:'state'}
     ]

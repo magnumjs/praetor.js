@@ -1,0 +1,102 @@
+@prefix: cards;
+
+.@{prefix}-hello {
+  color: red;
+}
+@padding-title: 0;
+@textcolor: #000;
+
+.world {
+  .cards-hello;
+}
+
+h1.@{prefix} {
+  color:white;
+  font-family:"Roboto";
+  font-weight:100;
+  font-size:36px;
+  padding: @padding-title;
+}
+h2.@{prefix} {
+  font-family:'Roboto';
+  font-weight:100;
+  font-size:30px;
+  color:#212121;
+}
+h4.@{prefix} {
+  font-family:'Roboto';
+  font-weight:400;
+  font-style: italic;
+  font-size:16px;
+  color: #727272;
+  border-top: 1px solid #727272;
+  padding-top: 4px;
+}
+p.@{prefix} {
+  font-family:'roboto';
+  font-weight:400;
+  font-size:20px;
+  color:#727272;
+}
+.content-link {
+  color:#212121;
+  text-decoration: none;
+  font-weight:700;
+}
+.card-track {
+  width:100%;
+  height: auto;
+  position:relative;
+  text-align: center;
+}
+.card {
+  color: @textcolor;
+  width: 466px;
+  margin: 15px;
+  background-color:white;
+  border-radius: 4px;
+  display:inline-flex;
+  text-align: left;
+}
+.card-color {
+  width:466px;
+  height: 96px;
+  background-color: #395a66;
+  position:absolute;
+  border-radius: 4px 4px 0px 0px;
+}
+.card-icon {
+  height: 46px;
+  width:46px;
+  margin: 25px;
+  float:left;
+}
+
+.card-icon-img {
+  max-height: 48px;
+  height: auto;
+  -webkit-filter: invert(100%);
+}
+.card-content-icon-img {
+  max-height: 50px;
+  height: auto;
+  -webkit-filter: opacity(55%);
+}
+.card-color-title {
+  margin:27px;
+}
+#gamingthronebar {
+  background-color:#FFC107;
+}
+#colorbar {
+  background-color:#673AB7;
+}
+.card-content {
+  padding:100px 30px 20px 60px;
+}
+.card-content-icon {
+  float:left;
+  width:60px;
+  height:60px;
+  margin:120px 0px 0px 24px;
+}
