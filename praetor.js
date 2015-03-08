@@ -30,23 +30,47 @@ var p = (function (undefined) {
             if (typeof to[n] != 'object') {
                 to[n] = from[n];
             } else if (typeof from[n] == 'object') {
+                if(type.call(from[n]) == NULL) {
+                    // remove it
+                    delete to[n]
+                    continue;
+                }
                 to[n] = realMerge(to[n], from[n]);
             }
         }
         return to;
     };
 
+    function clone(a) {
+        return JSON.parse(JSON.stringify(a));
+    }
+
     // TODO: why two mege functions, diff, nested issues?
-    function copy(to, from) {
+    function shallowCopy(to, from) {
         for (var attr in from) {
             to[attr] = to[attr] === undefined ? from[attr] : to[attr]
         }
         return to
     }
 
+    function copy(to, from) {
+        for (var attr in from) {
+            if (typeof to[attr] != 'object' ) {
+                to[attr] = to[attr] === undefined ? from[attr] : to[attr]
+            } else {
+                if(type.call(to[attr]) == NULL){
+                    delete to[attr]
+                    continue;
+                }
+                to[attr] = copy(to[attr], from[attr])
+            }
+        }
+        return to
+    }
+
     function createFunctionExec(queryResults, storedProc, parms) {
         // create temp function
-        var fun = Function(storedProc.codeBody)
+        var fun = Function(storedProc.code)
         parms = parms || {}
         //merge parms with defaults
         //TODO: parms will override if attr don't exist
@@ -72,15 +96,15 @@ var p = (function (undefined) {
     //TODO: is map necessary?
     // since we now have p.model?
     // data contruct
-    var map = {}
-    map.stores = {}
-    map.queries = {}
-    map.procs = {}
+    //var map = {}
+    //map.stores = {}
+    //map.queries = {}
+    //map.procs = {}
 
     // copy - don't modify!
-    var model = function () {
-        return JSON.parse(JSON.stringify(map))
-    }()
+    //var model = function () {
+    //    return JSON.parse(JSON.stringify(map))
+    //}()
 
     //return wireframe
     p.model = function () {
@@ -95,7 +119,7 @@ var p = (function (undefined) {
         options = {}, // user supplied
         settings = {} // combo of defaults and over rides in options
 
-    var OBJECT = "[object Object]", ARRAY = "[object Array]", STRING = "[object String]", FUNCTION = "function"
+    var OBJECT = "[object Object]",NULL = "[object Null]", ARRAY = "[object Array]", STRING = "[object String]", FUNCTION = "function"
     var type = {}.toString
 
     // initializer
@@ -105,7 +129,7 @@ var p = (function (undefined) {
         // attach to id
         p.setOptions(options, id)
         //merge incoming state with copy of model
-        var nstate = copy(state || {}, p.getState(id) || JSON.parse(JSON.stringify(model)))
+        var nstate = realMerge( p.getState(id), state || {})
         p.map(id, nstate)
     }
 
@@ -125,6 +149,7 @@ var p = (function (undefined) {
         return settings
     }
 
+    // TODO: should NOT be publicly accessible!!
     p.map = function (id, state) {
         this.state = this.state || {}
         if (id) {
@@ -132,10 +157,10 @@ var p = (function (undefined) {
             // if not but the id is in state get that
             // if no state and id is not set in state yet
             // make it equal a copy of the basic model
-            this.state[id] = state || this.state[id] || JSON.parse(JSON.stringify(model))
+            this.state[id] = state || this.state[id] || p.model()
             return this.state[id]
         }
-        this.state[rootid] = state || this.state[rootid] || map
+        this.state[rootid] = state || this.state[rootid] || p.model()
         return this.state[rootid]
     }
 
@@ -161,7 +186,7 @@ var p = (function (undefined) {
             return p.setStoredProc(name, queries, code, parms, id)
         }
         // if JSON is a string check store names
-        if (type.call(json) === STRING) {
+        if (type.call(json) == STRING) {
             json = p.getDataStore(json, id)
             // add the queries to the store?
             // under the proc name?
@@ -176,7 +201,7 @@ var p = (function (undefined) {
         })
         var storedProc = {
             parms: parms,
-            codeBody: code
+            code: code
         };
         //return results;
         return createFunctionExec(queryResults, storedProc, parms);
@@ -188,6 +213,14 @@ var p = (function (undefined) {
 
     p.getDataStore = function (name, id) {
         return p.map(id).stores[name]
+    }
+
+    p.removeDataStore = function (name, id) {
+        delete p.map(id).stores[name]
+    }
+
+    p.emptyDataStore = function (name, id) {
+        p.map(id).stores[name] = {}
     }
 
     p.setJsonQuery = function (name, JsonPathQuery, storeName, id) {
@@ -208,8 +241,8 @@ var p = (function (undefined) {
 
     p.setStoredProc = function (name, namedQueries, codeBody, parms, id) {
         p.map(id).procs[name] = {
-            namedQueries: type.call(namedQueries) == ARRAY ? namedQueries : namedQueries.split(','), // must be an array if comma separated then split
-            codeBody: codeBody,
+            queries: type.call(namedQueries) == ARRAY ? namedQueries : namedQueries.split(','), // must be an array if comma separated then split
+            code: codeBody,
             parms: parms
         }
     }
@@ -222,7 +255,7 @@ var p = (function (undefined) {
         var queryResults = [];
 
         // get all results
-        queryResults = storedProc.namedQueries.map(function (val, idx) {
+        queryResults = storedProc.queries.map(function (val, idx) {
             var result = {}
             result[val] = p.getJsonQueryResult(val, id)
             return result
@@ -231,14 +264,14 @@ var p = (function (undefined) {
         return createFunctionExec(queryResults, storedProc, parms);
     }
 
-    // api methods
+    // overwrite existing leaves (stores, procs, queries)
     p.setState = function (state, id) {
-        var nstate = realMerge(state || {}, JSON.parse(JSON.stringify(model)))
+        var nstate = copy(state || {}, p.model())
         p.map(id, nstate)
     }
     p.getState = function (id) {
         //return a copy not a reference
-        return JSON.parse(JSON.stringify(p.map(id)));
+        return clone(p.map(id));
     }
 
     return p

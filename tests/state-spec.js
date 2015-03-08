@@ -6,7 +6,6 @@ describe("getState",function(){
     })
     it("returns the current model data",function(){
         var id = 'testid2'
-        p({},id)
 
         expect(p.model()).toEqual( Object({ stores: Object({  }), queries: Object({  }), procs: Object({  }) }))
         expect(p.getState(id)).toEqual(p.model())
@@ -21,10 +20,36 @@ describe("getState",function(){
 
     it("works with setState and an intializer",function(){
         var id = 'testid12'
-        p({},id)
 
         p.setState({stores:{tester:{}}}, id)
         expect(p.getState(id)).toEqual( Object({stores: Object({tester: Object({})}), queries: Object({}), procs: Object({})}))
+    })
+    it("completely overwrite state on the same node using setState",function(){
+        var id = 'testid123'
+
+        p.setState({stores:{tester:{}}}, id)
+        p.setState({stores:{tester2:{}}}, id)
+
+        expect(p.getState(id)).toEqual(Object({ stores: Object({ tester2: Object({  }) }), queries: Object({  }), procs: Object({  }) }))
+    })
+    it("merges state on the same node using p()",function(){
+        var id = 'testid123'
+
+        p({stores:{tester:{}}}, id)
+        p({stores:{tester2:{}}}, id)
+
+        expect(p.getState(id)).toEqual(Object({ stores: Object({ tester2: Object({  }), tester: Object({  }) }), queries: Object({  }), procs: Object({  }) }))
+    })
+
+    it("merges state on the same node using p()",function(){
+        var id = 'testid1233'
+
+        p({stores:{tester:{attr:true}}}, id)
+        expect(p.getState(id).stores.tester.attr).toEqual(true)
+
+        p({stores:{tester:{attr:false}}}, id)
+
+        expect(p.getState(id).stores.tester.attr).toEqual(false)
     })
 
     it("maintains a global state with no id",function(){
@@ -33,14 +58,15 @@ describe("getState",function(){
     it("can initalize with data",function(){
         // pre defined proc
         p.proc('getTopDramaMovies','movies',"byDrama")
-        expect(p.getState()).toEqual(Object({ stores: Object({  }), queries: Object({  }), procs: Object({ getTopDramaMovies: Object({ namedQueries: [ 'byDrama' ] }) }) }))
+        expect(p.getState()).toEqual(Object({ stores: Object({  }), queries: Object({  }), procs: Object({ getTopDramaMovies: Object({ queries: [ 'byDrama' ] }) }) }))
         // load via ajax
         p({stores:{movies:data},queries:{"byDrama":{store:"movies",query:"$..movies[?(@.genres.indexOf('Drama')>-1)]"}}}) // allows the store to be used elsewhere by other praetors
 
         //run proc once data loaded
         expect(p.proc('getTopDramaMovies')[0].byDrama.length).toEqual(2)
         //remove the store
-        p({stores:{movies:{}}})
-        expect(p.getState()).toEqual( Object({ stores: Object({ movies: Object({  }) }), queries: Object({ byDrama: Object({ store: 'movies', query: '$..movies[?(@.genres.indexOf(\'Drama\')>-1)]' }) }), procs: Object({ getTopDramaMovies: Object({ namedQueries: [ 'byDrama' ] }) }) }))
+        //p.emptyDataStore('movies')
+        p({stores:{movies:{movies:null}}})
+        expect(p.getState()).toEqual( Object({ stores: Object({ movies: Object({  }) }), queries: Object({ byDrama: Object({ store: 'movies', query: '$..movies[?(@.genres.indexOf(\'Drama\')>-1)]' }) }), procs: Object({ getTopDramaMovies: Object({ queries: [ 'byDrama' ] }) }) }))
     })
 })

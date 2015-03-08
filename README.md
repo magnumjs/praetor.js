@@ -25,7 +25,7 @@ getMoviesAJAX().then(data){
 
 Download Praetor.JS
 ```html
-<script src="//cdn.rawgit.com/magnumjs/praetor.js/master/dist/praetor-0.1.4.min.js"></script>
+<script src="//cdn.rawgit.com/magnumjs/praetor.js/master/dist/praetor-0.1.5.min.js"></script>
 ```
 
 Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
@@ -153,14 +153,14 @@ the structures for each of this top nodes are as follows:
 ```javascript
 {procs : {
   procName (String): {
-    namedQueries: [] (Array), // must be an array if comma separated then split
-    codeBody: '' (String),
+    queries: [] (Array), // must be an array if comma separated then split
+    code: '' (String),
     parms: {} (Object)
   }
 } 
   e.g.
   
-  p ( {procs : { sortBookTitles : { namedQueries : ['getAllBookTitles'], codeBody : "this.results[0]['getAllBookTitles'].reverse()", parms: {} }} )
+  p ( {procs : { sortBookTitles : { queries : ['getAllBookTitles'], code : "this.results[0]['getAllBookTitles'].reverse()", parms: {} }} )
 ```
 ####Notes
 parms are an optional map of default parameters that can be overwritten when the stored procedure is executed
