@@ -1,7 +1,9 @@
 {
-  "name": "mithril-boilerplate",
-  "description": "A quick setup for Mithril projects.",
-  "repository": "https://github.com/velveteer/mithril-boilerplate",
+  "name": "gh-pages-code",
+  "description": "code for the magnumjs.github.io/praetor.js/ site that is then distributed to the gh-pages branch",
+  "repository": "https://github.com/magnumjs/praetor.js/tree/gh-pages-code",
+  "author": "Michael Glazer <mglazer@gmail.com>",
+  "licenses": [{"type": "MIT", "url": "http://opensource.org/licenses/MIT"}],
   "devDependencies": {
     "browserify": "^6.3.3",
     "connect": "^2.14.4",
