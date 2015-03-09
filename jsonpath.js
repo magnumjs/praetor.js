@@ -5,6 +5,14 @@
  *
  * Proposal of Chris Zyp goes into version 0.9.x
  * Issue 7 resolved
+ *
+ * Modified by Michael Glazer for Praetor.js (https://github.com/magnumjs/praetor.js)
+ * 3/9/2015
+ * Added function instead of eval
+ * Added function caching for performance
+ *
+ * TODO: more caching for regexes
+ * TODO: pluggable interface for  different filters/expression/syntax etc...
  */
 function jsonPath1(obj, expr, arg, cache) {
 
@@ -120,15 +128,18 @@ function jsonPath1(obj, expr, arg, cache) {
                 if (!cache[uid].functionToInvoke) {
 
                     var fun =function (x, _v, _vname, $) {
-                        var actionToCall = 'return x.replace(/(^|[^\\\\])@/g, "$1_v").replace(/\\@/g, "@")'
 
-                        var functionToInvoke1 = new Function(['x', '_v', '_vname', '$'],
-                                                             actionToCall);
+                        if(!cache[uid].innerFunctionToInvoke) {
 
-                        x = functionToInvoke1.apply(this, [x, _v, _vname, $])
+                            var actionToCall = 'return x.replace(/(^|[^\\\\])@/g, "$1_v").replace(/\\@/g, "@")'
 
-                        // TODO: cache this function to?
-                        // create a top function for both?
+                            cache[uid].innerFunctionToInvoke= new Function(['x', '_v', '_vname', '$'],
+                                                                 actionToCall);
+                        }
+
+                        x = cache[uid].innerFunctionToInvoke.apply(this, [x, _v, _vname, $])
+
+                        // TODO: cache seconday function below is it possible or NO since signature is totally dynamic
 
                         var action2 = 'return ' + x;
                         var re = new Function(['x', '_v', '_vname', '$'], action2);
