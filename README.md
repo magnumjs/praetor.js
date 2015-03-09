@@ -29,6 +29,10 @@ Download Praetor.JS
 ```
 
 Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
+(Will be optional and pluggable in the Future) e.g.:
+- JSONQuery
+- JSONSelect
+- JSONPath
 
 [DEMO admin site (using Mithril.js!)](https://magnumjs.github.io/praetor.js)
 
@@ -51,6 +55,26 @@ Results:
 ```javascript
   ["Terminator","American Sniper"]
 ```
+
+####Dynamic Example (from the tests/specs below)
+
+```javascript
+//data 
+var data={movies:[{"title":"test1","genres":["Action","Drama"]},{"title":"test3","genres":["Comedy"]},{"title":"test2","genres":["Romance","Drama"]}]}
+
+// define
+p.proc('getTopDramaMovies','movies',"byDrama")
+
+// inflate
+p({stores:{movies:data},queries:{"byDrama":{store:"movies",query:"$..movies[?(@.genres.indexOf(PARM)>-1)]"}}}) // allows the store to be used elsewhere by other praetors
+
+// run
+expect(p.proc({name:'getTopDramaMovies', parms:{PARM:'"Drama"'}})[0].byDrama.length).toEqual(2)
+```
+
+##Jasmine Specs
+http://rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
+
 ####API methods
 Add a data store.
 ```javascript
@@ -99,9 +123,6 @@ var code='console.log(this.params, this.results[0]["getBookTitles"]); \
 p.setStoredProc('convertBookTitles',['getBookTitles'],code,{upperCase : false})
 console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['getBookTitles'])
 ```
-
-##Jasmine Specs
-http://rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
 
 > Created by Michael Glazer 3/1/2015
 
