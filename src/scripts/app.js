@@ -20,6 +20,8 @@ app.controller = function() {
         m('a[href="http://goessner.net/articles/JsonPath/"]','JSONPath reference to create queries.')
         ])
     ]);
+
+
 }
 
 function mapActions(ctrl, options){
@@ -80,8 +82,22 @@ app.view = function(ctrl) {
                 m('a[href="https://github.com/magnumjs/praetor.js"]','PraetorJS gitHub')
             ])
         ]),
-        ctrl.type ? m("p.content",{key:ctrl.id()}, ctrl.type()):ctrl.welcomeMessage
+        //ctrl.type ? m("p.content",{key:ctrl.id()}, ctrl.type()):
+        m("p.content",{config:function(ele){
+            m.route(ele,'/welcome', {
+                "/welcome": {
+                    controller: function() {},
+                    view: function() {
+                        return ctrl.welcomeMessage
+                    }
+                },
+                "/demo": demo(),
+                "/dashboard": dash()
+            });
+        }}, ctrl.welcomeMessage )
     ])
 }
+
+
 
 m.module(document.body, app)
