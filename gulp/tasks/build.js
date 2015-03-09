@@ -5,7 +5,7 @@ var uglify = require('gulp-uglify');
 var csso = require('gulp-csso');
 var plumber = require('gulp-plumber');
 
-gulp.task('build', ['browserify', 'styles', 'images'], function() {
+gulp.task('build', ['browserify', 'styles', 'images', 'data'], function() {
     var assets = useref.assets({ searchPath: ['./.tmp', './src'] });
 
     return gulp.src('./src/index.html')

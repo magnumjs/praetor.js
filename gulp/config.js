@@ -11,6 +11,11 @@ module.exports = {
                             outputName: 'app.js'
                         }]
     },
+
+    data: {
+    src: src + "/data/**",
+        dest: "./dist/data"
+},
     images: {
         src: src + "/images/**",
         dest: "./dist/images"
