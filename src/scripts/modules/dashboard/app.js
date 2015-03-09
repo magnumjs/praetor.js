@@ -12,8 +12,8 @@ var dashboard = function() {
 
 
     User.listEven = function() {
-        return m.request({method: "GET", url: "/data/movies.json"}).then(function(list) {
-            console.log(list)
+        return m.request({method: "GET", url: "./data/movies.json"}).then(function(list) {
+            //console.log(list)
             return list.data.movies.filter(function(user) {
                 return user.id % 2 == 0
             });
