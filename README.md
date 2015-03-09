@@ -28,7 +28,7 @@ Download Praetor.JS
 <script src="//rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
 ```
 
-Includes the (bundled) dependency of [JSONPath](https://github.com/s3u/JSONPath)
+Includes an enhanced version of [JSONPath](http://goessner.net/articles/JsonPath/)
 (Will be optional and pluggable in the Future) e.g.:
 - JSONQuery
 - JSONSelect
@@ -153,6 +153,7 @@ the structures for each of this top nodes are as follows:
   
   e.g. 
   p ( {stores: {books:{[{title:"book1"},{title:"book2"},{title:"book3"}]} } }  /*, id */ )
+  
   will add & overwrite that store name in the state
   given an optional last argument id it will be only in that ids state map
 
