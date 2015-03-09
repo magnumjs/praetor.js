@@ -5,7 +5,7 @@ module.exports = function(config){
 
                    // list of files / patterns to load in the browser
                    files: [
-                       {pattern: 'node_modules/JSONPath/lib/jsonpath.js', watched: true, served: true, included: true},
+                       {pattern: 'jsonpath.js', watched: true, served: true, included: true},
                        {pattern: 'praetor.js', watched: true, served: true, included: true},
                        {pattern: 'tests/*spec.js', watched: true, served: true, included: true}
                    ],

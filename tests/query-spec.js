@@ -5,6 +5,14 @@ describe("praetor queries",function(){
     beforeEach(function(){
         p.setState();
     })
+    it("caches the same query with same parms",function(){
+        p.setDataStore('movies', data)
+        p.setJsonQuery('test','$..movies[*][?(@.genres.indexOf(PARM)>-1)]','movies')
+       var r = p.getJsonQueryResult('test',{PARM:'"Drama"'})
+        var r = p.getJsonQueryResult('test',{PARM:'"Drama"'})
+
+        expect(r).toEqual([ 'test1', [ 'Action', 'Drama' ], 'test2', [ 'Romance', 'Drama' ] ] )
+    });
     it("returns the current model data",function(){
         var id = 'testid2'
 

@@ -1,6 +1,6 @@
 {
   "name": "praetor",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Michael Glazer",
   "description": "Praetorjs - the tiny tunnel-tier library that can create & run named stored procedures (JSONPath queries & JS code). It is designed to manipulate JSON data after it is fetched & before it is rendered, in a pre-determined callable way.",
   "license": "MIT",
@@ -16,12 +16,9 @@
   "scripts": {
     "release-test": "./node_modules/jasmine-node/bin/jasmine-node --requireJsSetup ./tests/requirejs-setup.js --verbose tests/*-spec.js",
     "dev-test": "./node_modules/karma/bin/karma start",
-    "build-js": "./node_modules/uglify-js/bin/uglifyjs ./node_modules/JSONPath/lib/jsonpath.js praetor.js -o praetor.min.js --source-map praetor.min.js.map --lint --preamble '/* Praeter.js 0.1.5 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON\n*\n* Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)\n* Licensed under the MIT (MIT-LICENSE.txt) licence.\n*/' -c -m"
+    "build-js": "./node_modules/uglify-js/bin/uglifyjs jsonpath.js praetor.js -o praetor.min.js --source-map praetor.min.js.map --lint --preamble '/* Praeter.js 0.1.6 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON\n*\n* Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)\n* Licensed under the MIT (MIT-LICENSE.txt) licence.\n*/' -c -m"
   },
   "main": "praetor.js",
-  "dependencies": {
-    "JSONPath": "git://github.com/s3u/JSONPath"
-  },
   "devDependencies": {
     "jasmine-node": "latest",
     "jasmine-core": "latest",

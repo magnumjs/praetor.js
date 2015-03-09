@@ -1,11 +1,10 @@
-/* Praeter.js 0.1.5 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
+/* Praeter.js 0.1.6 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
  *
  * Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)
  * Licensed under the MIT (MIT-LICENSE.txt) licence.
  */
 
-
-// REQUIRES! JSONPath - https://github.com/s3u/JSONPath
+//includes original JSONPath lib refactored
 
 // using JSONPath query syntax
 // query a data store JSON object
@@ -17,9 +16,11 @@ var p = (function (undefined) {
     'use strict';
     var rootid = 'rootid'
 
+    // TODO: make this pluggable to any query engine
+    // DefiantJS, JSONPath, JSONQuery, JPath etc...
     function getjsonpath() {
         if (typeof JSONPath === 'undefined') {
-            throw new Error("JSONPath is required: (https://github.com/s3u/JSONPath)")
+            throw new Error("JSONPath is required: ()")
         }
         return JSONPath
     }
@@ -46,12 +47,12 @@ var p = (function (undefined) {
     }
 
     // TODO: why two mege functions, diff, nested issues?
-    function shallowCopy(to, from) {
-        for (var attr in from) {
-            to[attr] = to[attr] === undefined ? from[attr] : to[attr]
-        }
-        return to
-    }
+    //function shallowCopy(to, from) {
+    //    for (var attr in from) {
+    //        to[attr] = to[attr] === undefined ? from[attr] : to[attr]
+    //    }
+    //    return to
+    //}
 
     function copy(to, from) {
         for (var attr in from) {
@@ -166,15 +167,15 @@ var p = (function (undefined) {
 
     // TODO: remove is this necessary seems redundant to p.proc
     // setting a named proc
-    p.procWith = function (name, storeName, queries, code, parms) {
-        // if 1 argument run it
-        if (arguments.length == 1) {
-            return p.getStoredProcResult(name, id)
-        } else {
-            p.setJsonQuery(name, queries, storeName, id)
-            p.setStoredProc(name, name, code, parms, id)
-        }
-    }
+    //p.procWith = function (name, storeName, queries, code, parms) {
+    //    // if 1 argument run it
+    //    if (arguments.length == 1) {
+    //        return p.getStoredProcResult(name, id)
+    //    } else {
+    //        p.setJsonQuery(name, queries, storeName, id)
+    //        p.setStoredProc(name, name, code, parms, id)
+    //    }
+    //}
 
     // TODO: refactor into above method with this function name
     p.proc = function (name, json, queries, code, parms, id) {
@@ -287,11 +288,10 @@ var p = (function (undefined) {
 })();
 
 if (typeof module != "undefined" && module !== null && module.exports) {
-    JSONPath = require('JSONPath')
     module.exports = p
 }
 else if (typeof define === "function" && define.amd) {
-    define('', ['JSONPath'], function (JSONPath) {
+    define(function () {
         return p
     });
 }
