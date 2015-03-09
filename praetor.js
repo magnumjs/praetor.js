@@ -15,7 +15,6 @@
 var p = (function (undefined) {
     'use strict';
 
-
     // Query Engine Interface Endpoint
     // TODO: make this pluggable to any query engine
     // DefiantJS, JSONPath, JSONQuery, JPath etc...
@@ -25,6 +24,9 @@ var p = (function (undefined) {
         }
         return JSONPath
     }
+
+    var OBJECT = "[object Object]",NULL = "[object Null]", ARRAY = "[object Array]", STRING = "[object String]", FUNCTION = "function"
+    var type = {}.toString
 
     // BEGIN UTIL FUNCTIONS
     // TODO: why two mege functions, diff, nested issues?
@@ -65,8 +67,6 @@ var p = (function (undefined) {
     }
     // END UTIL FUNCTIONS
 
-    var OBJECT = "[object Object]",NULL = "[object Null]", ARRAY = "[object Array]", STRING = "[object String]", FUNCTION = "function"
-    var type = {}.toString
 
     // default 'global' state ID
     var rootid = 'rootid'
@@ -83,7 +83,6 @@ var p = (function (undefined) {
             procs: {}
         }
     }
-
 
     // initializer
     function p(state, id, options) {

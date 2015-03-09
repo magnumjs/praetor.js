@@ -18,7 +18,7 @@
     "dev-test": "./node_modules/karma/bin/karma start",
     "build-js": "./node_modules/uglify-js/bin/uglifyjs jsonpath.js praetor.js -o praetor.min.js --source-map praetor.min.js.map --lint --preamble '/* Praeter.js 0.1.6 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON\n*\n* Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)\n* Licensed under the MIT (MIT-LICENSE.txt) licence.\n*/' -c -m"
   },
-  "main": "praetor.js",
+  "main": "praetor.min.js",
   "devDependencies": {
     "jasmine-node": "latest",
     "jasmine-core": "latest",
