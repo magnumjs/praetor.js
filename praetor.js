@@ -69,9 +69,19 @@ var p = (function (undefined) {
         return to
     }
 
+    // public cache access for tests?
+    // across all state IDs?
+    var funCache={};
     function createFunctionExec(queryResults, storedProc, parms) {
-        // create temp function
-        var fun = Function(storedProc.code)
+
+        // create unique has id
+        var uid = JSONPath.hashCode(JSON.stringify({proc: storedProc, parms : parms}))
+        funCache[uid] = funCache[uid] = {}
+
+        if(!funCache[uid].fun) {
+            // create temp function
+            funCache[uid].fun = Function(storedProc.code)
+        }
         parms = parms || {}
         //merge parms with defaults
         //TODO: parms will override if attr don't exist
@@ -84,8 +94,9 @@ var p = (function (undefined) {
             results: queryResults,
             params: parms
         }
+
         // execute proc and return results
-        var ret = fun.apply(context)
+        var ret = funCache[uid].fun.apply(context)
         if (ret) {
             return ret
         }
