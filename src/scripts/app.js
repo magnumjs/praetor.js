@@ -61,7 +61,7 @@ console.log(ctrl)
             m.route(actionMap[this.selectedIndex].link)
         }},[
             actionMap.map(function(d, i){
-                return m('option', {config: m.route, value : i, innerHTML : d.text })
+                return m('option', {selected:options.selectedIndex==i?true:false,config: m.route, value : i, innerHTML : d.text })
             })
         ])
 
@@ -84,94 +84,50 @@ console.log(ctrl)
     }
 }
 
-app.view = function(ctrl) {
-    return m(".container", [
-        m('.nav',[
-            m('.welcome',[
-                m('h1','Praetor Admin Editor'),
-                m('h3',{title:"reference procs to manipulate data in pre-determined ways"},'JSON Path Stored Procedures'),
-                mapActions(ctrl,{style:'select'}),
-                m('button.silver',{onclick:ctrl.onchange},'Go'),
-                m('a[href="https://github.com/magnumjs/praetor.js"]','PraetorJS gitHub')
-            ])
-        ]),
-        //ctrl.type ? m("p.content",{key:ctrl.id()}, ctrl.type()):
-        m("p.content",{config:function(ele){
-            m.route(ele,'/welcome', {
-                "/welcome": {
-                    controller: function() {},
-                    view: function() {
-                        return ctrl.welcomeMessage
-                    }
-                },
-                "/demo": demo(),
-                "/dashboard": dash()
-            });
-        }}, ctrl.welcomeMessage )
-    ])
-}
-
 
 var layout ={
     call : m.prop( true ),
-    id : m.prop(0)
+    id : m.prop(0),
+    selectedIndex : m.prop(0)
 }
 
 var routeMessages = {
-    'welcome' : app.welcomeMessage,
     'demo'    : m.module(demo()),
-    'dash'    : m.module(dash()),
     'store'    : m.module(store()),
-    'query'    : m.module(query())
+    'query'    : m.module(query()),
+    'dash'    : m.module(dash()),
+    'welcome' : app.welcomeMessage
 }
 
-
-
-function menu(ctrl){
-    return m('select', {onchange: function () {
-        ctrl.id(this.selectedIndex)
-        m.route(actionMap[this.selectedIndex].link)
-    }},[
-                 actionMap.map(function(d, i){
-                     return m('option', {config: m.route, value : i, innerHTML : d.text })
-                 })
-             ])
-
+function getObjectKey(associativeArray, value) {
+    var foundKey;
+        Object.keys(associativeArray).forEach(function (key, idx) {
+       if(key == value){ foundKey = idx }
+            return;
+    })
+    return foundKey
 }
-
 layout.view = function(ctrl) {
-    layout.call(!layout.call())
-//    return m(".container", [
-//        m('a.nav',{
-//            config : m.route,
-//            href   :  layout.call(!layout.call()) ? "/welcome" : "/demo"
-//        },'CLICK ME!'),
-//        m("p.content", ctrl.message )
-//    ])
-
-   // console.log( layout.call())
 
     return m(".container", [
         m('.nav',[
             m('.welcome',[
                 m('h1','Praetor Admin Editor'),
                 m('h3',{title:"reference procs to manipulate data in pre-determined ways"},'JSON Path Stored Procedures'),
-               mapActions(layout,{style:'select'}),
-                //menu(layout),
+               mapActions(layout,{style:'select', selectedIndex:layout.selectedIndex()}),
                 m('button.silver',{onclick:ctrl.onchange},'Go'),
                 m('a[href="https://github.com/magnumjs/praetor.js"]','PraetorJS gitHub')
             ])
         ]),
         m("p.content",{key:layout.id()}, ctrl.message )
     ])
-
-
 }
 
 m.route(document.body, '/welcome', {
     "/:key...": {
         controller : function(){
-            console.log(m.route.param( "key" ) )
+            var route = m.route.param( "key" )
+            layout.selectedIndex(getObjectKey(routeMessages, route));
             this.message = routeMessages[ m.route.param( "key" ) ]
 
         },
