@@ -94,7 +94,8 @@ getJsonQueryResult ( name, options )
 ## Stored Procedure
 
 ### Pure JavaScript code block with query results
-#### Is given its own context of the named query results and optional params to override defaults
+
+Passed its own context of the named query results and optional params to override defaults.
 
 Create a stored proc with a given name, named existing queries, the code to be executed and its default properties (added to the executing context)
 ```javascript
@@ -142,7 +143,7 @@ model : {
 
 That is the basic praetor state model
 
-the structures for each of this top nodes are as follows:
+the structures for each of these top nodes are as follows:
 
 ###Stores
 ```javascript
