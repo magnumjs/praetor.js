@@ -24,7 +24,6 @@ var demo=function(){
         },
         //controller
         controller: function() {
-            console.log(arguments)
             this.data = tabs.data
 
             this.list = m.prop([])

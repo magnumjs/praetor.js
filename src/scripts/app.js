@@ -17,41 +17,21 @@ app.welcomeMessage=m('.content',[
         m('a[href="http://goessner.net/articles/JsonPath/"]','JSONPath reference to create queries.')
     ])
 ]);
+
 app.controller = function() {
     persist.init()
     this.id = m.prop(0)
+}()
 
-
-
-}
 var actionMap =[
     { text : 'Simple Demo', type:demo, link:'/demo'},
     { text : 'API::Create Stores', type:store, link:'/store'},
     { text : 'API::Create Queries', type:query, link:'/query'},
     { text : 'Dashboard Card Demo', type:dash, link:'/dash'},
-
-    // { text : 'Create named pure JS code Blocks with named queried results', type:'proc'},
-    // { text : 'Get the state & set the state', type:'state'}
 ]
 
 function mapActions(ctrl, options){
     var style = (options || {}).style
-    //var actionMap =[
-    //    { text : 'Simple Demo', type:demo, link:'/demo'},
-    //    { text : 'API::Create Stores', type:store, link:'/store'},
-    //    { text : 'API::Create Queries', type:query, link:'/query'},
-    //    { text : 'Dashboard Card Demo', type:dash, link:'/dash'},
-    //
-    //    // { text : 'Create named pure JS code Blocks with named queried results', type:'proc'},
-    //    // { text : 'Get the state & set the state', type:'state'}
-    //]
-
-
-    ctrl.onchange=function(){
-       // ctrl.type=actionMap[ctrl.id()].type
-console.log(ctrl)
-      //  console.log(actionMap[ctrl.id()].link)
-    }
 
     if(style=='select'){
 
@@ -61,7 +41,10 @@ console.log(ctrl)
             m.route(actionMap[this.selectedIndex].link)
         }},[
             actionMap.map(function(d, i){
-                return m('option', {selected:options.selectedIndex==i?true:false,config: m.route, value : i, innerHTML : d.text })
+                return m('option', {
+                    selected:options.selectedIndex==i?true:false,
+                    config: m.route, value : i, innerHTML : d.text
+                })
             })
         ])
 
@@ -115,7 +98,7 @@ layout.view = function(ctrl) {
                 m('h1','Praetor Admin Editor'),
                 m('h3',{title:"reference procs to manipulate data in pre-determined ways"},'JSON Path Stored Procedures'),
                mapActions(layout,{style:'select', selectedIndex:layout.selectedIndex()}),
-                m('button.silver',{onclick:ctrl.onchange},'Go'),
+                m('button.silver','Go'),
                 m('a[href="https://github.com/magnumjs/praetor.js"]','PraetorJS gitHub')
             ])
         ]),
@@ -134,5 +117,3 @@ m.route(document.body, '/welcome', {
         view : layout.view
     }
 })
-
-//m.module(document.body, app)
