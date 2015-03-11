@@ -2,6 +2,49 @@
 
 var utils = {}
 
+// mithril js helpers
+utils.m={}
+
+
+utils.m.layout = function(nav, body) {
+    return m(".container", [
+        m(".nav", nav),
+        m(".content", body)
+    ])
+}
+
+utils.m.mixinLayout = function(layout, nav, body) {
+    return function() {
+        return layout(nav(), body())
+    }
+}
+
+utils.m.binds = function(data) {
+    return {onchange: function(e) {
+        data[e.target.id](e.target.value);
+    }}
+}
+
+utils.m.viewModelMap = function(signature) {
+    var map = {}
+    return function(key) {
+        if (!map[key]) {
+            map[key] = {}
+            for (var prop in signature) map[key][prop] = m.prop(signature[prop]())
+        }
+        return map[key]
+    }
+}
+
+utils.getObjectKeyByVal =function(associativeArray, value) {
+    var foundKey;
+    Object.keys(associativeArray).forEach(function (key, idx) {
+        if(key == value){ foundKey = idx }
+        return;
+    })
+    return foundKey
+}
+
 utils.resizeTextarea=function(id) {
     var observe;
     if (window.attachEvent) {
