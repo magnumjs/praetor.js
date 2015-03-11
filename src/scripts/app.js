@@ -9,11 +9,7 @@ var persist = main.persist,
     dash = main.dash,
     query = main.query
 
-//top level component
-var app = {}
-
 // actually a module but content module?
-
 var welcomeMessage = function () {
     return m('.content', [
         m('.panel', 'Welcome to the PraetorJS administration editor demo page!',
@@ -27,27 +23,35 @@ var welcomeMessage = function () {
         )
     ])
 }
-// init
-app.controller = function () {
-    persist.init()
-    this.id = m.prop(0)
-}()
 
 // for the linkmap component
+// use by the layout nav
 var actionMap = [
+    {text: 'Welcome page', type: welcomeMessage, link: '/welcome'},
     {text: 'Simple Demo', type: demo, link: '/demo'},
     {text: 'API::Create Stores', type: store, link: '/store'},
     {text: 'API::Create Queries', type: query, link: '/query'},
     {text: 'Dashboard Card Demo', type: dash, link: '/dash'},
 ]
 
+//top level component
+var app = {}
+
+// init
+app.controller = function () {
+    persist.init()
+    this.id = m.prop(0)
+}()
+
+
 // for the m.route
+// used by layout controller
 var routeMessages = {
+    'welcome': welcomeMessage(),
     'demo': m.module(demo()),
     'store': m.module(store()),
     'query': m.module(query()),
-    'dash': m.module(dash()),
-    'welcome': welcomeMessage()
+    'dash': m.module(dash())
 }
 
 // layout manager
@@ -55,12 +59,14 @@ var layout = {
     selectedIndex: m.prop(0)
 }
 
+// sets the routes module
 layout.controller = function () {
     var route = m.route.param("key")
     layout.selectedIndex(utils.getObjectKeyByVal(routeMessages, route));
     this.message = routeMessages[m.route.param("key")]
 }
 
+// returns the top level layout
 layout.view = function (ctrl) {
 
     var body = function () {
@@ -73,12 +79,14 @@ layout.view = function (ctrl) {
                 m('h3', {title: "reference procs to manipulate data in pre-determined ways"},
                   'JSON Path Stored Procedures'),
                 links({linkMap: actionMap, style: 'select', selectedIndex: layout.selectedIndex}),
-                m('button.silver', 'Go'),
+                m('button.silver', {onclick:function(){
+                    // necessary?
+                    m.route(actionMap[layout.selectedIndex()].link)
+                }},'Go'),
                 m('a[href="https://github.com/magnumjs/praetor.js"]', 'PraetorJS gitHub')
             ])
 
     }
-
     return utils.m.mixinLayout(utils.m.layout, nav, body)();
 }
 

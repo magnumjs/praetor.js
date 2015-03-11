@@ -25,7 +25,7 @@ var dashboard = function () {
 
         controller: function () {
             this.onunload = function () {
-                document.getElementsByClassName("content")[0].style.backgroundColor = '#fff'
+                document.getElementsByClassName("content")[0].style.backgroundColor = '#ffffff'
             }.bind(this)
             //$..data.movies[?(@.genres.indexOf('Drama')>-1)]
 
