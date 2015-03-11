@@ -1,21 +1,22 @@
 m = require('mithril');
 p = require("praetor")
 persist = require("../../persistence.js")
+utils = require("../../utils.js")
 
 // dashboard module
 var dashboard = function () {
 
     //model
-    var User = {}
+    var movies = {}
 
     //https://yts.re/api/v2/list_movies.json?sort=seeds&limit=15
 
-    User.listEven = function () {
-        return m.request({method: "GET", url: "./data/movies.json"}).then(function (list) {
-            //console.log(list)
-            return list.data.movies.filter(function (user) {
-                return user.id % 2 == 0
-            });
+    movies.listEven = function () {
+        return utils.m.requestWithFeedback({method: "GET", url: "./data/movies.json"}).then(function (list) {
+            return list.data.movies
+            //return list.data.movies.filter(function (user) {
+            //    return user.id % 2 == 0
+            //});
         });
     }
 
@@ -27,12 +28,24 @@ var dashboard = function () {
             this.onunload = function () {
                 document.getElementsByClassName("content")[0].style.backgroundColor = '#ffffff'
             }.bind(this)
+
             //$..data.movies[?(@.genres.indexOf('Drama')>-1)]
 
             this.error = m.prop("")
 
-            this.users = User.listEven().then(function (users) {
+            this.selectedProject = m.prop()
+            this.projectAC = new autocompleter()
+            this.projectAC.vm.field='title'
+           // this.projects = m.prop([{id: 1, name: "John's project"}, {id: 2, name: "Bob's project"}, {id: 2, name: "Mary's project"}]);
+
+            this.projects = movies.listEven().then(function (users) {
                 //if (users.length == 0) m.route("/add");
+
+                // id, title, url, small_cover_image
+                
+               // this.projects = m.prop([{id: 1, name: "John's project"}, {id: 2, name: "Bob's project"}, {id: 2, name: "Mary's project"}]);
+                return users
+
             }, this.error)
         },
 
@@ -47,6 +60,7 @@ var dashboard = function () {
              m('.card-content', [
                  m('p.cards', 'Search newest: ',
                    m('input[placeholder="Filter by Genre"]')),
+                 ctrl.projectAC.view({field:'title',data: ctrl.projects, binds: ctrl.selectedProject}),
                  m('h4.cards', 'See run time code')
              ])
             ])
@@ -61,12 +75,13 @@ var autocompleter = function () {
     var autocompleter = {}
     autocompleter.vm = {
         term: m.prop(""),
+        field:'name',
         search: function (value) {
             autocompleter.vm.term(value.toLowerCase())
         },
         filter: function (item) {
             return autocompleter.vm.term()
-                   && item.name.toLowerCase().indexOf(autocompleter.vm.term()) > -1
+                   && item[autocompleter.vm.field].toLowerCase().indexOf(autocompleter.vm.term()) > -1
         }
     }
     autocompleter.view = function (ctrl) {
@@ -75,7 +90,7 @@ var autocompleter = function () {
                 m("input", {oninput: m.withAttr("value", autocompleter.vm.search)})
             ]),
             ctrl.data().filter(autocompleter.vm.filter).map(function (item) {
-                return m("div", {onclick: ctrl.binds.bind(this, item)}, item.name);
+                return m("div", {onclick: ctrl.binds.bind(this, item)}, item[ctrl.field]);
             })
         ];
     }
