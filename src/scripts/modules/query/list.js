@@ -1,7 +1,7 @@
 
 
 var list = function() {
-    var module = {name:'Queries'}
+    var module = {name:'queries'}
 
     module.controller = function(props) {
         this[module.name] = p.getState()[module.name]
@@ -16,8 +16,10 @@ var list = function() {
         return m('ul.'+module.name+'-list',
              {},
              m('h3',ctrl.title),
-             Object.keys(state.list).map(function(name) {
-                 var json = state.list[name]
+             Object.keys(state.list).map(function(name, idx) {
+                 console.log(name, idx, state.list[name])
+                 var json = JSON.stringify({name: state.list[name] } )
+
                  return m("li",{title:json, onclick:ctrl.showHide.bind(this,name)}, name,
                           ctrl.showJson==name?m('textarea.json',json):'')
              })
