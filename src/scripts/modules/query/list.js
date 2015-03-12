@@ -14,15 +14,17 @@ var list = function() {
     }
     module.view = function(ctrl, state) {
         return m('ul.'+module.name+'-list',
-             {},
-             m('h3',ctrl.title),
-             Object.keys(state.list).map(function(name, idx) {
-                 console.log(name, idx, state.list[name])
-                 var json = JSON.stringify({name: state.list[name] } )
+         {},
+         m('h3',ctrl.title),
+         Object.keys(state.list).map(function(name, idx) {
 
-                 return m("li",{title:json, onclick:ctrl.showHide.bind(this,name)}, name,
-                          ctrl.showJson==name?m('textarea.json',json):'')
-             })
+             var temp = {}
+             temp[name] = state.list[name]
+             var json = JSON.stringify(temp )
+
+             return m("li",{title:json, onclick:ctrl.showHide.bind(this,name)}, name,
+                      ctrl.showJson==name?m('textarea.json',json):'')
+         })
         )
     }
     return module

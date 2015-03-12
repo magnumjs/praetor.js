@@ -13,13 +13,13 @@ var list = function() {
     }
     module.view = function(ctrl, state) {
         return m('ul.store-list',
-                 {},
-                 m('h3',ctrl.title),
-                 Object.keys(state.list).map(function(name) {
-                     var json = state.list[name]
-                     return m("li",{title:json, onclick:ctrl.showHide.bind(this,name)}, name,
-                              ctrl.showJson==name?m('textarea.json',json):'')
-                 })
+         {},
+         m('h3',ctrl.title),
+         Object.keys(state.list).map(function(name) {
+             var json = state.list[name]
+             return m("li",{title:json, onclick:ctrl.showHide.bind(this,name)}, name,
+                      ctrl.showJson==name?m('textarea.json',json):'')
+         })
         )
     }
     return module

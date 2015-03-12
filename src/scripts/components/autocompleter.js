@@ -17,7 +17,7 @@ var autocompleter = function () {
     autocompleter.view = function (ctrl) {
         return [
             m("div", [
-                m("input", {oninput: m.withAttr("value", autocompleter.vm.search)})
+                m("input", {placeholder:ctrl.placeholder,oninput: m.withAttr("value", autocompleter.vm.search)})
             ]),
             ctrl.data().filter(autocompleter.vm.filter).map(function (item) {
                 return m("div", {onclick: ctrl.binds.bind(this, item)}, item[ctrl.field]);

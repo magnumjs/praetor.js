@@ -11,15 +11,14 @@ var dashboard = function () {
     //model
     var movies = {}
 
+    var q = '$..data.movies[?(@.genres.indexOf("PARM")>-1)]'
+
     //https://yts.re/api/v2/list_movies.json?sort=seeds&limit=15
 
     movies.listEven = function () {
         return utils.m.requestWithFeedback({method: "GET", url: "./data/movies.json"}).then(function (list) {
 
-            var q = '$..data.movies[?(@.genres.indexOf("Drama")>-1)]'
-
-            var result= p.proc(null,list,[q])
-
+            var result= p.proc(null,list,[q], null,{PARM:'Drama'})
             return result[0]
         });
     }
@@ -33,6 +32,9 @@ var dashboard = function () {
                 document.getElementsByClassName("content")[0].style.backgroundColor = '#ffffff'
             }.bind(this)
 
+            this.showHide=function(){
+                return !!(this.toggle=!this.toggle||false)
+            }.bind(this)
 
             this.error = m.prop("")
 
@@ -60,10 +62,10 @@ var dashboard = function () {
              m('span.card-color', m('h1.cards.card-color-title', 'New Movies')),
              m('.card-content', [
                  m('p.cards', 'Search newest: ',
-                   //m('input[placeholder="Filter by Genre"]')
-                   ctrl.projectAC.view({field:'title',data: ctrl.projects, binds: ctrl.selectedProject})
+                   ctrl.projectAC.view({field:'title',data: ctrl.projects, binds: ctrl.selectedProject, placeholder:'Filter by Genre'})
                  ),
-                 m('h4.cards', 'See run time code')
+                 m('h4.cards',{onclick:ctrl.showHide}, 'See run time code',
+                   ctrl.toggle?m('textarea.json',q):'')
              ])
             ])
         }
