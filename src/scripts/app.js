@@ -56,17 +56,16 @@ layout.view = function (ctrl) {
 
     var nav = function () {
         return  m('.welcome', [
-                m('h1', 'Praetor Admin Editor'),
-                m('h3', {title: "reference procs to manipulate data in pre-determined ways"},
-                  'JSON Path Stored Procedures'),
-                links({linkMap: actionMap, style: 'select', selectedIndex: layout.selectedIndex}),
-                m('button.silver', {onclick:function(){
-                    // necessary?
-                    m.route(actionMap[layout.selectedIndex()].link)
-                }},'Go'),
-                m('a[href="https://github.com/magnumjs/praetor.js"]', 'PraetorJS gitHub')
-            ])
-
+            m('h1', 'Praetor Admin Editor'),
+            m('h3', {title: "reference procs to manipulate data in pre-determined ways"},
+              'JSON Path Stored Procedures'),
+            links({linkMap: actionMap, style: 'select', selectedIndex: layout.selectedIndex}),
+            m('button.silver', {onclick:function(){
+                // necessary?
+                m.route(actionMap[layout.selectedIndex()].link)
+            }},'Go'),
+            m('a[href="https://github.com/magnumjs/praetor.js"]', 'PraetorJS gitHub')
+        ])
     }
     return utils.m.mixinLayout(utils.m.layout, nav, body)();
 }

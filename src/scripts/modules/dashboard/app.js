@@ -15,10 +15,12 @@ var dashboard = function () {
 
     movies.listEven = function () {
         return utils.m.requestWithFeedback({method: "GET", url: "./data/movies.json"}).then(function (list) {
-            return list.data.movies
-            //return list.data.movies.filter(function (user) {
-            //    return user.id % 2 == 0
-            //});
+
+            var q = '$..data.movies[?(@.genres.indexOf("Drama")>-1)]'
+
+            var result= p.proc(null,list,[q])
+
+            return result[0]
         });
     }
 
@@ -31,20 +33,18 @@ var dashboard = function () {
                 document.getElementsByClassName("content")[0].style.backgroundColor = '#ffffff'
             }.bind(this)
 
-            //$..data.movies[?(@.genres.indexOf('Drama')>-1)]
 
             this.error = m.prop("")
 
             this.selectedProject = m.prop()
             this.projectAC = new autocompleter()
             this.projectAC.vm.field='title'
-           // this.projects = m.prop([{id: 1, name: "John's project"}, {id: 2, name: "Bob's project"}, {id: 2, name: "Mary's project"}]);
 
             this.projects = movies.listEven().then(function (users) {
 
                 // id, title, url, small_cover_image
+                // add to viewModelMap
 
-               // this.projects = m.prop([{id: 1, name: "John's project"}, {id: 2, name: "Bob's project"}, {id: 2, name: "Mary's project"}]);
                 return users
 
             }, this.error)
