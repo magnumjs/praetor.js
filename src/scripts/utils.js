@@ -66,15 +66,6 @@ utils.m.requestWithFeedback = function(args) {
 utils.m.requestWithFeedback.cache = {}
 
 
-utils.getObjectKeyByVal =function(associativeArray, value) {
-    var foundKey;
-    Object.keys(associativeArray).forEach(function (key, idx) {
-        if(key == value){ foundKey = idx }
-        return;
-    })
-    return foundKey
-}
-
 utils.resizeTextarea=function(id) {
     var observe;
     if (window.attachEvent) {
