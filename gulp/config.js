@@ -2,6 +2,16 @@ var dest = "./.tmp";
 var src = './src';
 
 module.exports = {
+    webpack : {
+       // watch: true,
+        module: {
+            loaders: [
+              //  { test: /\.json/, loader: "json" },
+
+               // { test: /\.css$/, loader: 'style!css' },
+            ]
+        }
+    },
     browserify: {
         // Enable source maps
         debug: true,

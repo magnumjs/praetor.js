@@ -2,7 +2,8 @@
   "name": "app-name",
   "version": "0.0.1",
   "dependencies": {
-    "JSONPath" : "latest",
+    "mithril": "git://github.com/lhorie/mithril.js#fdbbe7f78f",
+    "praetor" : "git://github.com/magnumjs/praetor.js",
     "picnic": "latest"
   },
   "private": true
