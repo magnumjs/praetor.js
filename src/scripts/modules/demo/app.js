@@ -1,14 +1,14 @@
 m = require('mithril');
 tabbed = require("../../components/tabs")
+stateFun = require("../../components/state-fun")
 utils = require('../../utils')
 books = require('../../../data/books')
 
 var list = require('../../modules/demo/list')
 var form = require('../../modules/demo/form')
 
-
 // app demo/p.proc module
-var demo=function(){
+var demo = function () {
 
     var tabs = {
         //model
@@ -20,37 +20,39 @@ var demo=function(){
                      }, {
                          "name": "results",
                          "content": list
+                     },
+                     {
+                         "name": "state",
+                         "content": stateFun
                      }]
         },
         //controller
-        controller: function() {
+        controller: function () {
             this.data = tabs.data
 
             this.list = m.prop([])
             this.code = m.prop("")
             this.state = m.prop({})
 
-
-            this.changeTab = function(name) {
+            this.changeTab = function (name) {
                 this.data.selectedItem = name
             }.bind(this)
         },
         //view
-        view: function(ctrl) {
+        view: function (ctrl) {
             var options = {
-                tabs        : ctrl.data.tabs,
+                tabs: ctrl.data.tabs,
                 selectedItem: ctrl.data.selectedItem,
-                changeTab   : ctrl.changeTab
+                changeTab: ctrl.changeTab
             }
 
-            return m("div", {
-                     },
+            return m("div", {},
                      m.module(tabbed, options, {
-                         state       : ctrl.state,
-                         list        : ctrl.list,
-                         code        : ctrl.code,
-                         actions     : ctrl.actions,
-                         changeTab   : ctrl.changeTab
+                         state: ctrl.state,
+                         list: ctrl.list,
+                         code: ctrl.code,
+                         actions: ctrl.actions,
+                         changeTab: ctrl.changeTab
                      })
             )
         }
