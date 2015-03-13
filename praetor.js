@@ -105,6 +105,7 @@ var p = (function (undefined) {
     }
 
     p.settings = function (noptions, id) {
+       // if(arguments.length ==0) return settings
         // cache settings ?
         // settings into state?
         settings = realMerge(defaults, noptions)
@@ -213,8 +214,8 @@ var p = (function (undefined) {
         if (arguments.length == 1 && type.call(name) == OBJECT) {
             return p.getStoredProcResult(name.name, name.parms, name.id)
         }
-        // store the proc if named
-        if (name) {
+        // store the proc if named & doesn't exist
+        if (name && !p.getStoredProc(name, id)) {
             return p.setStoredProc(name, queries, code, parms, id)
         }
         // if JSON is a string check store names
@@ -251,7 +252,7 @@ var p = (function (undefined) {
     function createFunctionExec(queryResults, storedProc, parms) {
 
         // create unique has id
-        var uid = getjsonpath().hashCode(JSON.stringify({proc: storedProc, parms : parms}))
+        var uid = JSON.stringify({proc: storedProc, parms : parms})
         funCache[uid] = funCache[uid] = {}
 
         if(!funCache[uid].fun) {

@@ -121,7 +121,7 @@ function jsonPath1(obj, expr, arg, cache) {
         eval: function (x, _v, _vname) {
             try {
 
-                var uid = JSONPath.hashCode(JSON.stringify({query: x, obj: _v, index: _vname}))
+                var uid = JSON.stringify({query: x, obj: _v, index: _vname})
 
                 cache[uid] = cache[uid] || {};
 
@@ -178,16 +178,3 @@ var JSONPath = (function () {
         return jsonPath1(obj, expr, opts, this.cache);
     }
 })()
-
-JSONPath.hashCode = function (str) {
-    var hash = 0;
-    if (str.length == 0) {
-        return hash;
-    }
-    for (i = 0; i < str.length; i++) {
-        char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-}
