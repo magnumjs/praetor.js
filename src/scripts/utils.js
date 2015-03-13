@@ -66,6 +66,18 @@ utils.m.requestWithFeedback = function(args) {
 utils.m.requestWithFeedback.cache = {}
 
 
+utils.types = {OBJECT : "[object Object]", ARRAY : "[object Array]", STRING : "[object String]", FUNCTION : "function" }
+utils.type = {}.toString
+
+utils.isFunction =function(obj){
+    return typeof obj === utils.types.FUNCTION ? true : false
+}
+
+utils.jsonPathValue =function(obj){
+    function index(obj,i) {return obj[i]}
+    return string.split(sep || '.').reduce(index, obj)
+}
+
 utils.resizeTextarea=function(id) {
     var observe;
     if (window.attachEvent) {

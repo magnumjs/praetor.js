@@ -1,16 +1,6 @@
 m = require('mithril');
+utils = require('../utils');
 
-
-var utils = {}
-utils.types = {OBJECT : "[object Object]", ARRAY : "[object Array]", STRING : "[object String]", FUNCTION : "function" }
-utils.type = {}.toString
-utils.isFunction =function(obj){
-    return typeof obj === utils.types.FUNCTION ? true : false
-}
-utils.jsonPathValue =function(obj){
-    function index(obj,i) {return obj[i]}
-    return string.split(sep || '.').reduce(index, obj)
-}
 
 //component
 var tabbed = {
