@@ -11,11 +11,11 @@ var tabbed = {
     view:function(ctrl,options, extras){
         return m('.tabbed',
                  m(".tabs", [
-                     tabbed.tabs({
-                                     tabs : ctrl.tabs,
-                                     selectedItem: options.selectedItem,
-                                     onchange: ctrl.changeTab
-                                 }),
+                 tabbed.tabs({
+                     tabs : ctrl.tabs,
+                     selectedItem: options.selectedItem,
+                     onchange: ctrl.changeTab
+                 }),
                  ]),
                  tabbed.choose(options.selectedItem, ctrl.tabs,extras)
         )
