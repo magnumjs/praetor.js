@@ -41,6 +41,23 @@ describe("getState",function(){
         expect(p.getState(id)).toEqual(Object({ stores: Object({ tester2: Object({  }), tester: Object({  }) }), queries: Object({  }), procs: Object({  }) }))
     })
 
+
+    it("add proc to state and remove it from p and p.setState",function(){
+        var id = 'testid1234'
+
+        p({procs:{tester:{queries:'1',code:'2',parms:"3"}}}, id)
+
+        expect(p.getState(id)).toEqual(Object({ stores: Object({  }), queries: Object({  }), procs: Object({ tester: Object({ queries: '1', code: '2', parms: '3' }) }) }))
+        p({procs:{tester2:{queries:'1',code:'2',parms:"3"}}}, id)
+
+        p({procs:{tester:null}}, id)
+        expect(p.getState(id)).toEqual(Object({ stores: Object({  }), queries: Object({  }), procs: Object({ tester2: Object({ queries: '1', code: '2', parms: '3' }) }) }))
+
+        p.setState({procs:{tester:null}}, id)
+        expect(p.getState(id)).toEqual(Object({ procs: Object({ tester: null }), stores: Object({  }), queries: Object({  }) }))
+
+    })
+
     it("merges state on the same node using p()",function(){
         var id = 'testid1233'
 

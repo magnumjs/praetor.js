@@ -193,9 +193,15 @@ this.results (an array of results sets matching the name of your query
 this.parms (the map of default and or overwritten parameters sent in)
 
 Whatever you set to the this.results is what will be returned at run time
-You can also return 
+You can also return whatever you like
 
-
+####DELETING
+```javascript
+p({procs:{tester:null}}, id) // merges
+p.setState({procs:{tester:null}}, id) // overwrites from the root
+```
+The first one will only remove that proc name
+THe second will set the value of procs to literally tester : null
 
 ### State & IDs
 
