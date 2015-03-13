@@ -19,6 +19,12 @@ describe("praetor queries",function(){
         expect(p.model()).toEqual( Object({ stores: Object({  }), queries: Object({  }), procs: Object({  }) }))
         expect(p.getState(id)).toEqual(p.model())
     })
+    it("returns empty array on invalid query",function(){
+        p.setJsonQuery('test2','$..movies.titles','movies')
+        var r = p.getJsonQueryResult('test2')
+        expect(r).toEqual(undefined )
+
+    })
     it("returns results",function() {
 
         // define
