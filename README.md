@@ -201,7 +201,7 @@ p({procs:{tester:null}}, id) // merges
 p.setState({procs:{tester:null}}, id) // overwrites from the root
 ```
 The first one will only remove that proc name
-THe second will set the value of procs to literally tester : null
+The second will set the value of procs to literally tester : null
 
 ### State & IDs
 
