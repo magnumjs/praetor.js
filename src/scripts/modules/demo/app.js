@@ -27,23 +27,27 @@ var demo = function () {
                      }]
         },
         //controller
-        controller: function () {
+        controller: function (props) {
+
             this.data = tabs.data
 
             this.list = m.prop([])
             this.code = m.prop("")
             this.state = m.prop({})
 
+            this.data.selectedItem  = props.sub || tabs.data.selectedItem
+
             this.changeTab = function (name) {
                 this.data.selectedItem = name
+                m.route("/"+props.top+"/"+name)
             }.bind(this)
         },
         //view
         view: function (ctrl) {
             var options = {
-                tabs: ctrl.data.tabs,
-                selectedItem: ctrl.data.selectedItem,
-                changeTab: ctrl.changeTab
+                tabs        : ctrl.data.tabs,
+                key         : ctrl.data.selectedItem,
+                changeTab   : ctrl.changeTab
             }
 
             return m("div", {},

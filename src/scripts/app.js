@@ -39,12 +39,13 @@ var layout = {
 // sets the routes module
 layout.controller = function () {
     var route = m.route.param("key")
+    var sub   = m.route.param("sub")
 
     actionMap.forEach(function(item, idx){
         return item.link=="/"+route ? layout.selectedIndex(idx) : null
     })
 
-    this.message = m.module(actionMap[layout.selectedIndex()].type())
+    this.message = m.module(actionMap[layout.selectedIndex()].type(),{top:route,sub:sub})
 }
 
 // returns the top level layout
@@ -71,5 +72,6 @@ layout.view = function (ctrl) {
 }
 
 m.route(document.body, '/welcome', {
-    "/:key...": layout
+    "/:key": layout,
+    "/:key/:sub": layout
 })

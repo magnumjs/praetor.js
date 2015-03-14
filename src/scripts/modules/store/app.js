@@ -10,15 +10,12 @@ books = require('../../../data/books')
 var list = require('../../modules/store/list')
 var form = require('../../modules/store/form')
 
-
-//app.booksString = JSON.stringify(books);
-//app.books = JSON.parse(app.booksString);
-
 var store=function(){
 
-    var tabs = {
-        //model
-        data: {
+    var module = {}
+
+            //model
+        var data = {
             "selectedItem": "create",
             "tabs": [{
                          "name": "create",
@@ -27,10 +24,11 @@ var store=function(){
                          "name": "list",
                          "content": list
                      }]
-        },
+        }
+
         //controller
-        controller: function() {
-            this.data = tabs.data
+        module.controller= function(props) {
+            this.data = data
 
             this.actions = persist.model('stores')
             this.list = this.actions.getList()
@@ -38,29 +36,31 @@ var store=function(){
             // initialize praeter.js
             p({stores:this.list});
 
+            this.data.selectedItem  = props.sub || data.selectedItem
+
             this.changeTab = function(name) {
                 this.data.selectedItem = name
+                m.route("/"+props.top+"/"+name)
             }.bind(this)
 
-        },
+        }
         //view
-        view: function(ctrl) {
+        module.view=function(ctrl) {
             var options = {
                 tabs        : ctrl.data.tabs,
-                selectedItem: ctrl.data.selectedItem,
+                key         : ctrl.data.selectedItem,
                 changeTab   : ctrl.changeTab
             }
 
-            return m("div", {
-                     },
-                     m.module(tabbed, options, {
-                         list    : ctrl.list,
-                         actions : ctrl.actions
-                     })
+            return m("div", { },
+                 m.module(tabbed, options, {
+                     list    : ctrl.list,
+                     actions : ctrl.actions
+                 })
             )
         }
-    }
-    return tabs
+
+    return module
 }
 
 module.exports = store

@@ -7,17 +7,18 @@ var tabbed = {
     controller :function(options,extras){
         this.tabs=options.tabs
         this.changeTab=options.changeTab
+        this.mod = tabbed.choose(options.key, options.tabs,extras)
     },
     view:function(ctrl,options, extras){
         return m('.tabbed',
-                 m(".tabs", [
-                 tabbed.tabs({
-                     tabs : ctrl.tabs,
-                     selectedItem: options.selectedItem,
-                     onchange: ctrl.changeTab
-                 }),
-                 ]),
-                 tabbed.choose(options.selectedItem, ctrl.tabs,extras)
+             m(".tabs", [
+             tabbed.tabs({
+                 tabs : ctrl.tabs,
+                 selectedItem: options.key,
+                 onchange: ctrl.changeTab
+             }),
+             ]),
+             m('section',ctrl.mod)
         )
     }
 }
@@ -29,9 +30,9 @@ tabbed.tabs = function(ctrl) {
 }
 tabbed.tab = function(ctrl, name) {
     return m("a", {
-                 class: ctrl.selectedItem == name ? "selected" : "",
-                 onclick: ctrl.onchange.bind(this, name)},
-             name)
+         class: ctrl.selectedItem == name ? "selected" : "",
+         onclick: ctrl.onchange.bind(this, name)},
+     name)
 }
 tabbed.choose = function(name, options, parms) {
     var content

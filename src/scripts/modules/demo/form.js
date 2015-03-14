@@ -32,7 +32,7 @@ var form = function() {
                 this.results(p.proc(null,JSON.parse(this.model.store()),this.model.queries().split(','), this.model.code()))
                 this.pass(true)
                 props.code('p.proc(null,'+this.model.store()+',\''+this.model.queries().split(',')+'\', \''+this.model.code()+'\')')
-                props.list(this.results)
+                props.list(this.results())
                 props.changeTab("results")
             } else {
                 this.fail(true)

@@ -24,7 +24,7 @@ var query = function() {
                      }]
         },
 
-        controller: function () {
+        controller: function (props) {
 
             this.data = module.data
 
@@ -34,8 +34,11 @@ var query = function() {
             // initialize praeter.js
             p({queries:this.list});
 
+            this.data.selectedItem  = props.sub || module.data.selectedItem
+
             this.changeTab = function(name) {
                 this.data.selectedItem = name
+                m.route("/"+props.top+"/"+name)
             }.bind(this)
 
         },
@@ -43,7 +46,7 @@ var query = function() {
         view: function (ctrl) {
             var options = {
                 tabs        : ctrl.data.tabs,
-                selectedItem: ctrl.data.selectedItem,
+                key         : ctrl.data.selectedItem,
                 changeTab   : ctrl.changeTab
             }
 

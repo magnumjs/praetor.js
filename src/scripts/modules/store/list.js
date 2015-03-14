@@ -18,7 +18,7 @@ var list = function() {
          Object.keys(state.list).map(function(name) {
              var json = state.list[name]
              return m("li",{title:json, onclick:ctrl.showHide.bind(this,name)}, name,
-                      ctrl.showJson==name?m('textarea.json',json):'')
+              ctrl.showJson==name?m('textarea.json',json):'')
          })
         )
     }

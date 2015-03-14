@@ -8,7 +8,7 @@ var results = function() {
             utils.resizeTextarea(element.id)
         }
     }
-    module.view = function(ctrl, state) {
+    module.view = function(ctrl, state, extras) {
         return m('.results',[
             m('textarea#list',{config:ctrl.setArea},JSON.stringify(state.list())),
             m('textarea#code',{config:ctrl.setArea},state.code()),
