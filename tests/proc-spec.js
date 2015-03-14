@@ -56,6 +56,14 @@ describe('p.proc()', function () {
                      ]);
     })
 
+    it("can take multiple queries",function(){
+        expect(p.proc(null,books, ['$..title','$..author']))
+            .toEqual([ [ 'kids', 'action' ], [ 'adams', 'johns' ] ] );
+    })
+    it("can handle code errors",function(){
+        expect({}.toString.call(p.proc(null,books, ['getBookTitles'],'this.result==')))
+            .toEqual('[object Error]');
+    })
     it("can take datastore name as first argument", function () {
         p.setDataStore('mystore', books)
         expect(p.getDataStore('mystore')).toEqual(books)

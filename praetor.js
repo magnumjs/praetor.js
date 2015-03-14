@@ -1,4 +1,4 @@
-/* Praeter.js 0.1.6 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
+/* Praeter.js 0.1.7 - Stored Procedures (JS Code blocks) for JSON results via XPath JSON
  *
  * Copyright (c) 2015 Michael Glazer (https://github.com/magnumjs/praetor.js)
  * Licensed under the MIT (MIT-LICENSE.txt) licence.
@@ -216,7 +216,9 @@ var p = (function (undefined) {
         }
         // store the proc if named & doesn't exist
         if (name && !p.getStoredProc(name, id)) {
-            return p.setStoredProc(name, queries, code, parms, id)
+            var result = {}
+            result[name] = p.setStoredProc(name, queries, code, parms, id)
+            return result
         }
         // if JSON is a string check store names
         if (type.call(json) == STRING) {
@@ -257,7 +259,12 @@ var p = (function (undefined) {
 
         if(!funCache[uid].fun) {
             // create temp function
-            funCache[uid].fun = Function(storedProc.code)
+            try {
+                funCache[uid].fun = Function(storedProc.code)
+            }catch(e){
+                // most likely SyntaxError
+                return new Error('code error: '+e, 'praetor.js:createFunctionExec',265)
+            }
         }
         parms = parms || {}
         //merge parms with defaults
@@ -271,12 +278,13 @@ var p = (function (undefined) {
             results: queryResults,
             params: parms
         }
-
         // execute proc and return results
         var ret = funCache[uid].fun.apply(context)
         if (ret) {
             return ret
         }
+        // might be errors?
+
         return context.results
     }
 
