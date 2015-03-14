@@ -22,7 +22,9 @@ var actionMap = [
 ]
 
 //top level component
-var app = {}
+var app = {
+    state: m.prop({})
+}
 
 // init
 app.controller = function () {
@@ -33,7 +35,7 @@ app.controller = function () {
 
 // layout manager
 var layout = {
-    selectedIndex: m.prop(0)
+    selectedIndex: m.prop(0),
 }
 
 // sets the routes module
@@ -45,7 +47,7 @@ layout.controller = function () {
         return item.link=="/"+route ? layout.selectedIndex(idx) : null
     })
 
-    this.message = m.module(actionMap[layout.selectedIndex()].type(),{top:route,sub:sub})
+    this.message = m.module(actionMap[layout.selectedIndex()].type(),{top:route,sub:sub,state:app.state})
 }
 
 // returns the top level layout

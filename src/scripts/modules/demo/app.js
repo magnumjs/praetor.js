@@ -31,16 +31,21 @@ var demo = function () {
 
             this.data = tabs.data
 
-            this.list = m.prop([])
-            this.code = m.prop("")
+            this.list = m.prop( (props.state().demoresults || []).list)
+            this.code = m.prop( (props.state().demoresults || {}).code)
             this.state = m.prop({})
 
             this.data.selectedItem  = props.sub || tabs.data.selectedItem
 
             this.changeTab = function (name) {
                 this.data.selectedItem = name
+                // save list and code to localstorage for retrieval by results
+                props.state({demoresults:{list:this.list(),code:this.code()}})
+
+                // results id to match ?
                 m.route("/"+props.top+"/"+name)
             }.bind(this)
+
         },
         //view
         view: function (ctrl) {
