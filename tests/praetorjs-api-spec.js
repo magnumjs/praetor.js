@@ -1,8 +1,7 @@
 
 // specs code
 describe("PraetorJS", function() {
-  var booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';
-  var books = JSON.parse(booksString);
+
 
   it("is defined", function() {
     expect(p).toBeDefined();

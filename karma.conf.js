@@ -7,6 +7,7 @@ module.exports = function(config){
                    files: [
                        {pattern: 'jsonpath.js', watched: true, served: true, included: true},
                        {pattern: 'praetor.js', watched: true, served: true, included: true},
+                       {pattern: 'tests/json.js', watched: true, served: true, included: true},
                        {pattern: 'tests/*spec.js', watched: true, served: true, included: true}
                    ],
 

@@ -226,6 +226,10 @@ var p = (function (undefined) {
             // add the queries to the store?
             // under the proc name?
         }
+        // make sure queries is an array
+        if(type.call(queries)!=ARRAY){
+            queries = queries.split(',')
+        }
         // can be raw or by stored names
         var queryResults = queries.map(function (query, idx) {
             // check if it's a name query

@@ -1,7 +1,6 @@
 describe("praetor queries",function(){
 
 
-    var data={movies:[{"title":"test1","genres":["Action","Drama"]},{"title":"test3","genres":["Comedy"]},{"title":"test2","genres":["Romance","Drama"]}]}
     beforeEach(function(){
         p.setState();
     })

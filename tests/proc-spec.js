@@ -1,6 +1,5 @@
 describe('p.proc()', function () {
 
-    var booksString = '{"books":[{"title":"kids", "author":"adams"},{"title":"action", "author":"johns"}]}';
     var code = '\
        if(this.params.upperCase){ \
             this.results[0]["getBookTitles"]=this.results[0]["getBookTitles"]. \
@@ -10,7 +9,6 @@ describe('p.proc()', function () {
         } \
         ';
 
-    var books = JSON.parse(booksString);
     it("can execute a stored proc", function () {
 
         // setup a proc
@@ -60,10 +58,7 @@ describe('p.proc()', function () {
         expect(p.proc(null,books, ['$..title','$..author']))
             .toEqual([ [ 'kids', 'action' ], [ 'adams', 'johns' ] ] );
     })
-    it("can handle code errors",function(){
-        expect({}.toString.call(p.proc(null,books, ['getBookTitles'],'this.result==')))
-            .toEqual('[object Error]');
-    })
+
     it("can take datastore name as first argument", function () {
         p.setDataStore('mystore', books)
         expect(p.getDataStore('mystore')).toEqual(books)
