@@ -25,7 +25,7 @@ getMoviesAJAX().then(data){
 
 Download Praetor.JS
 ```html
-<script src="//rawgit.com/magnumjs/praetor.js/master/praetor-0.1.7.min.js"></script>
+<script src="//rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
 ```
 
 Includes an enhanced version of [JSONPath](http://goessner.net/articles/JsonPath/)
