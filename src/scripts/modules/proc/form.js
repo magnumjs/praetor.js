@@ -60,7 +60,7 @@ form = function() {
         this.fail    = m.prop("")
 
         this.save = function() {
-            if(this.model.name() && this.model.store() && this.model.query()) {
+            if(this.model.name() && this.model.code() && this.model.query()) {
 
                 this.list[this.model.name()] = {
                     queries: typeof this.model.query() == 'string' ? this.model.query().split(',')

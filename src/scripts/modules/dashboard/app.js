@@ -4,6 +4,7 @@ persist = require("../../persistence.js")
 utils = require("../../utils.js")
 autocompleter = require("../../components/autocompleter")
 
+// http://stackoverflow.com/questions/28353117/how-can-i-get-dynamic-google-now-style-cards-using-just-css-html
 
 // dashboard module
 var dashboard = function () {
