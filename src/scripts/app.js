@@ -8,7 +8,8 @@ var persist = main.persist,
     store   = main.store,
     dash    = main.dash,
     home    = main.home,
-    query   = main.query
+    query   = main.query,
+    proc    = main.proc
 
 
 // for the linkmap component
@@ -18,6 +19,7 @@ var actionMap = [
     {text: 'Simple Demo', type: demo, link: '/demo'},
     {text: 'API::Create Stores', type: store, link: '/store'},
     {text: 'API::Create Queries', type: query, link: '/query'},
+    {text: 'API::Create Procs', type: proc, link: '/proc'},
     {text: 'Dashboard Card Demo', type: dash, link: '/dash'},
 ]
 
