@@ -4,12 +4,11 @@ persist = require("../../persistence.js")
 passFail = require("../../components/pass-fail")
 tabbed = require("../../components/tabs")
 
-var list = require('../../modules/query/list')
-var form = require('../../modules/query/form')
+var list = require('../../modules/proc/list')
+var form = require('../../modules/proc/form')
 
 // query module
-var query = function() {
-
+var query = function () {
 
     var module = {
         //model
@@ -28,36 +27,36 @@ var query = function() {
 
             this.data = module.data
 
-            this.actions    = persist.model('queries')
-            this.list       = this.actions.getList()
+            this.actions = persist.model('procs')
             this.storesList = persist.model('stores').getList()
 
+            this.list = this.actions.getList()
+
             // initialize praeter.js
-            p({queries:this.list});
+            p({procs: this.list});
 
-            this.data.selectedItem  = props.sub || module.data.selectedItem
+            this.data.selectedItem = props.sub || module.data.selectedItem
 
-            this.changeTab = function(name) {
+            this.changeTab = function (name) {
                 this.data.selectedItem = name
-                m.route("/"+props.top+"/"+name)
+                m.route("/" + props.top + "/" + name)
             }.bind(this)
 
         },
 
         view: function (ctrl) {
-
             var options = {
-                tabs        : ctrl.data.tabs,
-                key         : ctrl.data.selectedItem,
-                changeTab   : ctrl.changeTab
+                tabs: ctrl.data.tabs,
+                key: ctrl.data.selectedItem,
+                changeTab: ctrl.changeTab
             }
 
-            return m("div", {
-                     },
+            return m("div", {},
                      m.module(tabbed, options, {
-                         list      : ctrl.list,
-                         storeList : ctrl.storesList,
-                         actions   : ctrl.actions
+                         list       : ctrl.list,
+                         mode       : 'add',
+                         storeList  : ctrl.storesList,
+                         actions    : ctrl.actions
                      })
             )
         }

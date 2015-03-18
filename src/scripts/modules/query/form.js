@@ -4,6 +4,10 @@ var form = function() {
 
     var module = {}
 
+    module.model={}
+
+    module.model.storeList={default:'select pre-defined stored'}
+
     module.controller = function(props) {
         this.model = {
             name: m.prop(''),
@@ -13,6 +17,10 @@ var form = function() {
 
         this.actions = props.actions
         this.list    = props.list
+        this.stores  = props.storeList
+
+        this.storesList = Object.keys(this.stores)
+        storesList.unshift(module.model.storeList.default)
 
         this.pass    = m.prop("")
         this.fail    = m.prop("")
@@ -48,6 +56,7 @@ var form = function() {
                     onchange: m.withAttr("value", ctrl.model.query),
                     value: ctrl.model.query()
                 }),
+                getStoreNamesListSelect(ctrl.storesList),
                 m('input[placeholder="JSON store name"]', {
                     onchange: m.withAttr("value", ctrl.model.store),
                     value: ctrl.model.store()
@@ -59,6 +68,15 @@ var form = function() {
         ])
     }
     return module
+}
+
+function getStoreNamesListSelect(stores){
+
+    return m('select', {},[
+         stores.map(function(d, i){
+             return m('option', {value : i, innerHTML : d })
+         })
+     ])
 }
 
 module.exports = form
