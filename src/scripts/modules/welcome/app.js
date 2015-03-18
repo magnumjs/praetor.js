@@ -15,9 +15,9 @@ var app = function() {
                   m('a[href="http://goessner.net/articles/JsonPath/"]',
                     'JSONPath reference to create queries.'),
                   m('.row',{style:'padding-top:20px'},[
-                      m('.step',m('h1','1. Define'),m('code','p.proc("getTopDramaMovies","movies","byDrama")')),
-                      m('.step',m('h1','2. Inflate'),m('code','p({stores:{movies:data},queries:{"byDrama":{store:"movies",query:"$..movies[?(@.genres.indexOf(PARM)>-1)]"}}}) // allows the store to be used elsewhere by other praetors')),
-                      m('.step',m('h1','3. Run'),m('code','p.proc({name:"getTopDramaMovies", parms:{PARM:"Drama"}})[0].byDrama.length'))
+                      m('.step',m('h1','1. Define'),m('code',"p.proc (\n'getTopDramaMovies',\n'movies',\n'byDrama'\n)")),
+                      m('.step',m('h1','2. Inflate'),m('code',"p (\n{stores:{movies:data},\nqueries:{\n'byDrama':{store:'movies',\nquery:'$..movies[?(@.genres.indexOf(PARM)>-1)]'}}}\n)")),
+                      m('.step',m('h1','3. Run'),m('code',"p.proc (\n{name:'getTopDramaMovies', parms:{PARM:'Drama'}}\n)[0].byDrama.length"))
                   ])
               ]
             )

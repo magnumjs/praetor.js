@@ -240,18 +240,34 @@ textarea.results {
   background-color: #63B8FF;
   color:#000;
   margin:2px;
-  word-break: break-word;
+/*  word-break: break-word; */
 }
 
 .step h1 {
   padding-top: 0px;
 }
 
-@media only screen and (min-width : 320px) and (max-width : 480px) {
+code {
+  display: block;
+  border: 1px solid silver;
+}
+
+@media screen and (min-device-width : 320px ) and (max-device-width : 480px) {
   /* Styles */
 
   .container > .nav,.container > .content{
     width:100%;
+    height:auto;
+  }
+
+}
+
+@media screen and (min-width : 320px ) and (max-width : 480px) {
+  /* Styles */
+
+  .container > .nav,.container > .content{
+    width:100%;
+    height:auto;
   }
 
 }
