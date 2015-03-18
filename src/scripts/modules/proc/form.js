@@ -73,7 +73,7 @@ form = function() {
 
     module.view = function(ctrl) {
         return m(".form", binds(ctrl.model),
-                 ctrl.mode.toUpperCase() + ' PROC - p.proc(procName|null,StoreName|data,jsonPathQueryNames|query(s),/* code, parms, id */)', [
+                 ctrl.mode.toUpperCase() + ' PROC - p.proc(procName|null,StoreName|data,jsonPathQueryNames|query(s), code, parms, id)', [
                 m("input#name[placeholder='Proc Name']", {
                     value: ctrl.model.name()
                 }),

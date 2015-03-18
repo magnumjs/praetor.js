@@ -94,6 +94,7 @@ input, textarea {
 
 /* tabs */
 .tabbed {
+  background-color: #fff;
 }
 .tabs a, .tabs a:visited, .tabs a:active {
   cursor:pointer;
@@ -240,6 +241,7 @@ textarea.results {
   background-color: #63B8FF;
   color:#000;
   margin:2px;
+  box-shadow: 5px 5px 5px #bebebe;
 /*  word-break: break-word; */
 }
 
@@ -252,9 +254,14 @@ code {
   border: 1px solid silver;
 }
 
-@media screen and (min-device-width : 320px ) and (max-device-width : 480px) {
-  /* Styles */
-
+@media screen and (min-device-width : 320px ) and (max-device-width : 799px) {
+  .welcome button.silver {
+    display:none;
+  }
+  .welcome a {
+    display:inline-block;
+    width:100%;
+  }
   .container > .nav,.container > .content{
     width:100%;
     height:auto;
@@ -262,9 +269,14 @@ code {
 
 }
 
-@media screen and (min-width : 320px ) and (max-width : 480px) {
-  /* Styles */
-
+@media screen and (min-width : 320px ) and (max-width : 799px) {
+  .welcome button.silver {
+    display:none;
+  }
+  .welcome a {
+    display:inline-block;
+    width:100%;
+  }
   .container > .nav,.container > .content{
     width:100%;
     height:auto;
