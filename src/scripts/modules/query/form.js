@@ -1,3 +1,4 @@
+var select = require("../../components/select")
 
 
 var form = function() {
@@ -56,7 +57,7 @@ var form = function() {
                     onchange: m.withAttr("value", ctrl.model.query),
                     value: ctrl.model.query()
                 }),
-                getStoreNamesListSelect(ctrl.storesList, ctrl.model.store),
+                select(ctrl.storesList, ctrl.model.store),
                 m('input[placeholder="JSON store name"]', {
                     onchange: m.withAttr("value", ctrl.model.store),
                     value: ctrl.model.store()
@@ -70,16 +71,6 @@ var form = function() {
     return module
 }
 
-function getStoreNamesListSelect(stores, setterGetter){
 
-    return m('label.select',m('select', {
-        onchange: m.withAttr("value", setterGetter),
-        value: setterGetter()
-    },[
-         stores.map(function(d, i){
-             return m('option', {value : i==0?'': d, innerHTML : d })
-         })
-     ]))
-}
 
 module.exports = form

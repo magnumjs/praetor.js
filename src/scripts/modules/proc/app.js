@@ -28,9 +28,8 @@ var query = function () {
             this.data = module.data
 
             this.actions = persist.model('procs')
-            this.storesList = persist.model('stores').getList()
-
             this.list = this.actions.getList()
+            this.storesList = persist.model('stores').getList()
 
             // initialize praeter.js
             p({procs: this.list});
@@ -55,7 +54,7 @@ var query = function () {
                      m.module(tabbed, options, {
                          list       : ctrl.list,
                          mode       : 'add',
-                         storeList  : ctrl.storesList,
+                         storesList : ctrl.storesList,
                          actions    : ctrl.actions
                      })
             )

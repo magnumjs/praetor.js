@@ -1,4 +1,5 @@
-parms = require("../../components/parms")
+var parms  = require("../../components/parms")
+var select = require("../../components/select")
 
 
 form = function() {
@@ -9,23 +10,21 @@ form = function() {
         getData: function(data) {
             return {
                 name: m.prop(data.name || ''),
+                store: m.prop(data.store || ''),
                 query: m.prop(data.queries || ''),
                 code: m.prop(data.code || ''),
                 parms: m.prop(data.parms || '')
             }
-        },
-        //saveList: function(list) {
-        //    localStorage['procs'] = JSON.stringify(list)
-        //},
-        //getList: function() {
-        //    return JSON.parse(localStorage['procs'] || '{}')
-        //}
+        }
     }
+    module.model={}
+    module.model.storeList={default:'select defined store'}
+
 
     module.controller = function(props) {
         this.mode = props.mode
         this.actions = props.actions
-        this.stores = props.storeList
+        this.stores = props.storesList
 
         data = {}
         if (this.mode == 'edit' && props.name) {
@@ -35,6 +34,8 @@ form = function() {
         this.model = module.data.getData(data)
 
 
+        this.storesList = Object.keys(this.stores)
+        this.storesList.unshift(module.model.storeList.default)
 
         this.list = this.actions.getList()
 
@@ -55,28 +56,41 @@ form = function() {
             this.actions.saveList(this.list)
         }.bind(this)
 
+        this.pass    = m.prop("")
+        this.fail    = m.prop("")
+
         this.save = function() {
-            console.log(this.model.query(), this.model.code(), this.model.parms())
-            this.list[this.model.name()] = {
-                queries: typeof this.model.query() == 'string' ? this.model.query().split(',') : this.model.query(),
-                code: this.model.code(),
-                parms: this.model.parms()
+            if(this.model.name() && this.model.store() && this.model.query()) {
+
+                this.list[this.model.name()] = {
+                    queries: typeof this.model.query() == 'string' ? this.model.query().split(',')
+                        : this.model.query(),
+                    code: this.model.code(),
+                    parms: this.model.parms()
+                }
+                this.actions.saveList(this.list)
+                p({
+                      procs: this.list
+                  })
+                p.proc(this.model.name(), this.model.store(), this.list[this.model.name()].queries,
+                       this.model.code(), this.model.parms());
+            }else {
+                this.fail(true)
             }
-            this.actions.saveList(this.list)
-            p({
-                  procs: this.list
-              })
-            p.proc(this.model.name(), '', this.list[this.model.name()].queries, this.model.code(), this.model.parms());
         }.bind(this)
 
     }
 
     module.view = function(ctrl) {
         return m(".form", binds(ctrl.model),
-                 ctrl.mode.toUpperCase() + ' PROC - p.proc(procName|null,StoreName|data,jsonPathQueryNames|query(s), code, parms, id)', [
+                 m.module(passFail(),{
+                     pass:ctrl.pass,fail:ctrl.fail,message:{pass:"yay!", fail:"boo!"}
+                 }),
+                 ctrl.mode.toUpperCase() + ' PROC - p.proc(procName|null,StoreName|data|null,jsonPathQueryNames|query(s),code,parms)', [
                 m("input#name[placeholder='Proc Name']", {
                     value: ctrl.model.name()
                 }),
+                select(ctrl.storesList, ctrl.model.store),
                 m("input#query[placeholder='Queries']", {
                     value: ctrl.model.query()
                 }),
