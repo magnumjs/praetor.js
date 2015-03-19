@@ -1,12 +1,25 @@
 var dest = "./.tmp";
 var src = './src';
+var path        = require('./config').path;
+var webpack        = require('webpack');
+var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+
+var output = 'bundle.js'
 
 module.exports = {
     webpack : {
-       // watch: true,
+        output: {
+            path: __dirname+'/'+dest,
+            filename: "[name].js",
+            publicPath:'./',
+            chunkFilename: "js/[name].js",
+            sourceMapFilename :"[name].map"
+        },
+        plugins: [ new CommonsChunkPlugin("init.js") ],
+        watch: true,
         module: {
             loaders: [
-              //  { test: /\.json/, loader: "json" },
+                { test: /\.json/, loader: "json" },
 
                // { test: /\.css$/, loader: 'style!css' },
             ]

@@ -3,24 +3,25 @@ links = require('./components/linknav')
 main = require('./main')
 
 var persist = main.persist,
-    demo    = main.demo,
-    utils   = main.utils,
-    store   = main.store,
-    dash    = main.dash,
-    home    = main.home,
-    query   = main.query,
-    proc    = main.proc
+    getPage = main.getPage,
+    //demo    = main.demo,
+    utils   = main.utils
+    //store   = main.store,
+    //dash    = main.dash,
+    //home    = main.home,
+    //query   = main.query,
+    //proc    = main.proc
 
 
 // for the linkmap component
 // use by the layout nav
 var actionMap = [
-    {text: 'Welcome page', type: home, link: '/welcome'},
-    {text: 'Simple Demo', type: demo, link: '/demo'},
-    {text: 'API::Create Stores', type: store, link: '/store'},
-    {text: 'API::Create Queries', type: query, link: '/query'},
-    {text: 'API::Create Procs', type: proc, link: '/proc'},
-    {text: 'Dashboard Card Demo', type: dash, link: '/dash'},
+    {text: 'Welcome page', type: '', link: '/welcome'},
+    {text: 'Simple Demo', type: '', link: '/demo'},
+    {text: 'API::Create Stores', type: '', link: '/store'},
+    {text: 'API::Create Queries', type: '', link: '/query'},
+    {text: 'API::Create Procs', type: '', link: '/proc'},
+    {text: 'Dashboard Card Demo', type: '', link: '/dash'},
 ]
 
 //top level component
@@ -37,7 +38,7 @@ app.controller = function () {
 
 // layout manager
 var layout = {
-    selectedIndex: m.prop(0),
+    selectedIndex: m.prop(0)
 }
 
 // sets the routes module
@@ -49,7 +50,16 @@ layout.controller = function () {
         return item.link=="/"+route ? layout.selectedIndex(idx) : null
     })
 
-    this.message = m.module(actionMap[layout.selectedIndex()].type(),{top:route,sub:sub,state:app.state})
+    getPage(actionMap[layout.selectedIndex()].link,function(name, mod){
+        this.message = m.module(mod(), {top:route,sub:sub,state:app.state})
+        m.redraw()
+    }.bind(this))
+
+//require.ensure(['./modules/'+modName+'/app.js'],function(require){
+//    var mod = require('./modules/'+modName+'/app.js')
+//    this.message = m.module(mod(), {top:route,sub:sub,state:app.state})
+//}.bind(this))
+    //this.message = m.module(actionMap[layout.selectedIndex()].type(),{top:route,sub:sub,state:app.state})
 }
 
 // returns the top level layout

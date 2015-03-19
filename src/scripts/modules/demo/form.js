@@ -1,4 +1,6 @@
 
+var passFail = require("../../components/pass-fail")
+
 
 var form = function() {
 
