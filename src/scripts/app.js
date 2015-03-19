@@ -4,24 +4,17 @@ main = require('./main')
 
 var persist = main.persist,
     getPage = main.getPage,
-    //demo    = main.demo,
-    utils   = main.utils
-    //store   = main.store,
-    //dash    = main.dash,
-    //home    = main.home,
-    //query   = main.query,
-    //proc    = main.proc
-
+    utils = main.utils
 
 // for the linkmap component
 // use by the layout nav
 var actionMap = [
-    {text: 'Welcome page', type: '', link: '/welcome'},
-    {text: 'Simple Demo', type: '', link: '/demo'},
-    {text: 'API::Create Stores', type: '', link: '/store'},
-    {text: 'API::Create Queries', type: '', link: '/query'},
-    {text: 'API::Create Procs', type: '', link: '/proc'},
-    {text: 'Dashboard Card Demo', type: '', link: '/dash'},
+    {text: 'Welcome page', link: '/welcome'},
+    {text: 'Simple Demo', link: '/demo'},
+    {text: 'API::Create Stores', link: '/store'},
+    {text: 'API::Create Queries', link: '/query'},
+    {text: 'API::Create Procs', link: '/proc'},
+    {text: 'Dashboard Card Demo', link: '/dash'},
 ]
 
 //top level component
@@ -35,7 +28,6 @@ app.controller = function () {
     this.id = m.prop(0)
 }()
 
-
 // layout manager
 var layout = {
     selectedIndex: m.prop(0)
@@ -44,22 +36,17 @@ var layout = {
 // sets the routes module
 layout.controller = function () {
     var route = m.route.param("key")
-    var sub   = m.route.param("sub")
+    var sub = m.route.param("sub")
 
-    actionMap.forEach(function(item, idx){
-        return item.link=="/"+route ? layout.selectedIndex(idx) : null
+    actionMap.forEach(function (item, idx) {
+        return item.link == "/" + route ? layout.selectedIndex(idx) : null
     })
 
-    getPage(actionMap[layout.selectedIndex()].link,function(name, mod){
-        this.message = m.module(mod(), {top:route,sub:sub,state:app.state})
+    getPage(actionMap[layout.selectedIndex()].link, function (name, mod) {
+        this.message = m.module(mod(), {top: route, sub: sub, state: app.state})
         m.redraw()
     }.bind(this))
 
-//require.ensure(['./modules/'+modName+'/app.js'],function(require){
-//    var mod = require('./modules/'+modName+'/app.js')
-//    this.message = m.module(mod(), {top:route,sub:sub,state:app.state})
-//}.bind(this))
-    //this.message = m.module(actionMap[layout.selectedIndex()].type(),{top:route,sub:sub,state:app.state})
 }
 
 // returns the top level layout
@@ -70,15 +57,17 @@ layout.view = function (ctrl) {
     }
 
     var nav = function () {
-        return  m('.welcome', [
+        return m('.welcome', [
             m('h1', 'Praetor Admin Editor'),
             m('h3', {title: "reference procs to manipulate data in pre-determined ways"},
               'JSON Path Stored Procedures'),
             links({linkMap: actionMap, style: 'select', selectedIndex: layout.selectedIndex}),
-            m('button.silver', {onclick:function(){
-                // necessary?
-                m.route(actionMap[layout.selectedIndex()].link)
-            }},'Go'),
+            m('button.silver', {
+                onclick: function () {
+                    // necessary?
+                    m.route(actionMap[layout.selectedIndex()].link)
+                }
+            }, 'Go'),
             m('a[href="https://github.com/magnumjs/praetor.js"]', 'PraetorJS gitHub')
         ])
     }
