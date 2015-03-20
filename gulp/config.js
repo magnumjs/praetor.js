@@ -31,7 +31,7 @@ module.exports = {
         bundleConfigs: [{
                             entries: src + '/scripts/app.js',
                             dest: dest,
-                            outputName: 'app.js'
+                            outputName: 'main.js'
                         }]
     },
 

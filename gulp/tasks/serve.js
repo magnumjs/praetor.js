@@ -1,3 +1,3 @@
 var gulp = require('gulp');
 
-gulp.task('serve', ['browserify', 'styles', 'connect']);
+gulp.task('serve', ['webpack', 'styles', 'connect']);

@@ -1,5 +1,6 @@
 var parms  = require("../../components/parms")
 var select = require("../../components/select")
+var passFail = require("../../components/pass-fail")
 
 
 form = function() {
@@ -28,7 +29,7 @@ form = function() {
 
         data = {}
         if (this.mode == 'edit' && props.name) {
-            data = p.getStoredProc(props.name)
+            data = p.getStoredProc(props.name) || {}
             data.name = props.name
         }
         this.model = module.data.getData(data)
