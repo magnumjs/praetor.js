@@ -1,9 +1,10 @@
 <img align="right" src="https://cloud.githubusercontent.com/assets/6472507/6443569/c255e31a-c0c5-11e4-9818-6423d7db04bb.png" style=" background:no-repeat;background-position: right top;display:block;position:absolute;top:0;left:0;width: 00%;height:100%;opacity: 0.2;z-index: -1;" />
-#Praetor.js 
-####JSON Path Stored Procedures
+
+# Praetor.js 
+#### JSON Path Stored Procedures
 A tiny JSON processing tunnel tier library (2kb gzipped), to query and filter results with stored JS procedures
 
-##WHY
+## WHY
 Praetorjs - the tiny tunnel-tier library that can create & run named stored procedures (JSONPath queries & JS code)
 
 It is designed to manipulate JSON data after it is fetched & before it is rendered, in a pre-determined callable way.
@@ -25,7 +26,7 @@ getMoviesAJAX().then(data){
 
 Download Praetor.JS
 ```html
-<script src="//rawgit.com/magnumjs/praetor.js/master/praetor.min.js"></script>
+<script src="//raw.githack.com/magnumjs/praetor.js/master/praetor.min.js"></script>
 ```
 
 Includes an enhanced version of [JSONPath](http://goessner.net/articles/JsonPath/)
@@ -36,7 +37,7 @@ Includes an enhanced version of [JSONPath](http://goessner.net/articles/JsonPath
 
 [DEMO admin site (using Mithril.js!)](https://magnumjs.github.io/praetor.js)
 
-####Simple Example
+#### Simple Example
 
 JSON:
 ```javascript
@@ -56,7 +57,7 @@ Results:
   ["Terminator","American Sniper"]
 ```
 
-####Dynamic Example (from the tests/specs below)
+#### Dynamic Example (from the tests/specs below)
 
 ```javascript
 //data 
@@ -72,10 +73,10 @@ p({stores:{movies:data},queries:{"byDrama":{store:"movies",query:"$..movies[?(@.
 expect(p.proc({name:'getTopDramaMovies', parms:{PARM:'"Drama"'}})[0].byDrama.length).toEqual(2)
 ```
 
-##Jasmine Specs
-http://rawgit.com/magnumjs/praetor.js/master/tests/specRunner.html
+## Jasmine Specs
+http://raw.githack.com/magnumjs/praetor.js/master/tests/specRunner.html
 
-####API methods
+#### API methods
 Add a data store.
 ```javascript
 p.setDataStore( name, data )
@@ -127,9 +128,9 @@ console.log(p.getStoredProcResult('convertBookTitles', {upperCase : true })[0]['
 
 > Created by Michael Glazer 3/1/2015
 
-#More
+# More
 
-###Simple nomenclature
+### Simple nomenclature
 
 ### Simple data model
 
@@ -145,7 +146,7 @@ That is the basic praetor state model
 
 the structures for each of these top nodes are as follows:
 
-###Stores
+### Stores
 ```javascript
   { stores : {
     storename (String) : data (Object)
@@ -159,7 +160,7 @@ the structures for each of these top nodes are as follows:
   given an optional last argument id it will be only in that ids state map
 
 ```
-###Queries
+### Queries
 ```javascript
 {queries : { 
   queryName (String) : {
@@ -172,7 +173,7 @@ the structures for each of these top nodes are as follows:
   p ( {queries : { getAllBookTitles : { query : "$..title", store : "books" }} )
 ```
 
-###Procs
+### Procs
 ```javascript
 {procs : {
   procName (String): {
@@ -185,7 +186,7 @@ the structures for each of these top nodes are as follows:
   
   p ( {procs : { sortBookTitles : { queries : ['getAllBookTitles'], code : "this.results[0]['getAllBookTitles'].reverse()", parms: {} }} )
 ```
-####Notes
+#### Notes
 parms are an optional map of default parameters that can be overwritten when the stored procedure is executed
 
 in codebody you get a context with two properties
@@ -195,7 +196,7 @@ this.parms (the map of default and or overwritten parameters sent in)
 Whatever you set to the this.results is what will be returned at run time
 You can also return whatever you like
 
-####DELETING
+#### DELETING
 ```javascript
 p({procs:{tester:null}}, id) // merges
 p.setState({procs:{tester:null}}, id) // overwrites from the root
